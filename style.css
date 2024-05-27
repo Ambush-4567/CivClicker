@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Concert+One&display=swap');
+body
+{
+    font-family: 'Concert One';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    background: rgb(21,17,83);
+    background: linear-gradient(90deg, rgba(21,17,83,1) 0%, rgba(19,98,103,1) 0%, rgba(50,192,221,1) 57%);
+}
+
+h1
+{
+    text-align: center;
+    font-style: bold;
+}
+
+.reg 
+{
+    font-size: 99%;
+}
+
+#para6, #para7
+{
+    font-style: italic;
+    color:lightslategrey;
+}
+
+#reg1 , #reg2
+{
+    font-size: 80%;
+    font-style: italic;
+}
+
+

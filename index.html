@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<head>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Java Stuff</title>
+    <style></style>
+</head>
+<body>
+    <h1>Button Click Simulator</h1>
+    <p class="reg">click on food, wood and stone to gather resources.</p>
+    <p></p>
+    <input type="button" id="butone1" onclick="woodButt()" value="Wood" style="margin-bottom: 20px; width: 80px;">
+    <span id="para1">0</span><span id="maxw">/200</span><br>
+    <input type="button" id="butone2" onclick="foodButt()" value="Food" style="margin-bottom: 20px; width: 80px;">
+    <span id="para2">0</span><span id="maxf">/200</span><br>
+    <input type="button" id="butone3" onclick="stoneButt()" value="Stone" style="margin-bottom: 20px; width: 80px;">
+    <span id="para3">0</span><span id="maxs">/200</span><br>
+    <p class="reg">Apple count:<span id="para4"></span></p>
+    <p class="reg">God Apple count:<span id="para5"></span></p>
+    <input type="button" id="butone4" onclick="tripWood()" value="Efficient Woodcutters" disabled><span id="para6">Costs 100 wood</span><br>
+    <input type="button" id="butone5" onclick="woodMax()" value="Extra Wood Storage" disabled><span id="para7">Costs 200 wood</span><br>
+    <input type="button" id="butone6" onclick="harvestLrg()" value="100">
+    <h2>Purchased:</h2>
+    <p id="reg1"></p>
+    <p id="reg2"></p>
+</body>
+</html>
