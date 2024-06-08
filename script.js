@@ -234,3 +234,5 @@ function butDisable()
             document.getElementById('wrap8').style.visibility = 'visible';
             document.getElementById('para18').style.visibility = 'hidden'; }
 }
+
+//yep
