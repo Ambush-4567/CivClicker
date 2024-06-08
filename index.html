@@ -1,27 +1,81 @@
 <!DOCTYPE html>
+<html>
 <head>
-    <script src="script.js"></script>
-    <link rel="stylesheet" href="style.css">
-    <title>Java Stuff</title>
-    <style></style>
-</head>
-<body>
-    <h1>Button Click Simulator</h1>
-    <p class="reg">click on food, wood and stone to gather resources.</p>
-    <p></p>
-    <input type="button" id="butone1" onclick="woodButt()" value="Wood" style="margin-bottom: 20px; width: 80px;">
-    <span id="para1">0</span><span id="maxw">/200</span><br>
-    <input type="button" id="butone2" onclick="foodButt()" value="Food" style="margin-bottom: 20px; width: 80px;">
-    <span id="para2">0</span><span id="maxf">/200</span><br>
-    <input type="button" id="butone3" onclick="stoneButt()" value="Stone" style="margin-bottom: 20px; width: 80px;">
-    <span id="para3">0</span><span id="maxs">/200</span><br>
-    <p class="reg">Apple count:<span id="para4"></span></p>
-    <p class="reg">God Apple count:<span id="para5"></span></p>
-    <input type="button" id="butone4" onclick="tripWood()" value="Efficient Woodcutters" disabled><span id="para6">Costs 100 wood</span><br>
-    <input type="button" id="butone5" onclick="woodMax()" value="Extra Wood Storage" disabled><span id="para7">Costs 200 wood</span><br>
-    <input type="button" id="butone6" onclick="harvestLrg()" value="100">
-    <h2>Purchased:</h2>
-    <p id="reg1"></p>
-    <p id="reg2"></p>
-</body>
+        <meta charset="utf-8">
+        <meta-name="viewport" content="width=devices-width, initial-scale=1.0">
+        <title>butone</title>
+        <link rel="stylesheet" href="style.css">
+        <script src="script.js"></script>
+    </head>
+    <body onload="startUp()">
+        <h1 id="header">Welcome To Shitty Civclicker V 1.1</h1>
+        <p>Press on wood, food and stone buttons to gather resources. Get upgrades and improve your abilities, to eventually buy the trophy and win the game. Now with progress lol.</p>
+    <div>
+        <section>
+        <input type="button" id="butt1" value="wood" onclick="woodGet()" style="border-radius: 30px; width: 100px; border: 3px solid rgb(205,133,63)"><br>
+        <span id="para1">0</span><span id="update">/200</span><br>
+        <br><input type="button" id="butt2" value="food" onclick="foodGet()" style="border-radius: 30px; width: 100px; border: 3px solid rgb(0,128,0)"><br>
+        <span id="para2">0</span><span id="update2">/200</span><br>
+        <br><input type="button" id="butt3" value="stone" onclick="stoneGet()" style="border-radius: 30px; width: 100px; border: 3px solid rgb(192,192,192)"><br>
+        <span id="para3">0</span><span id="update3">/200</span><br>
+        <div>
+        <span id="large">Apple count:&nbsp;<span id="appletxt">0&nbsp;&nbsp;</span><span id="gappletxt">&nbsp;Golden apple count:&nbsp;</span><span id="gappletxt2">0</span></span>
+        </div>
+        </section>
+    </div>
+    <div>
+        <section>
+        <span id="wrap1">
+        <input type="button" id="butt3.5" value="Scrap Resources" onclick="resDump()" style="width: 140px; border: 3px solid rgb(70,130,180)">
+        <span id="para3-5">Destroys all current resources. Try not to get softlocked again bozo.</span><br>
+        </span>
+        <span id="wrap2">
+        <input type="button" id="butt4" value="Efficient Woodcutters" onclick="woodUp()" style="width: 140px; border: 3px solid rgb(70,130,180)">
+        <span id="para4">Costs 100 wood- gathering wood yields 3 resorces per click.</span><br>
+        </span>
+        <span id="wrap3">
+        <input type="button" id="butt5" value="Wood Max" onclick="woodMax()" style="width: 140px; border: 3px solid rgb(70,130,180)">
+        <span id="para5">Costs 200 wood- wood max increased by 200</span><br>
+        </span>
+        <span id="wrap4">
+        <input type="button" id="butt6" value="Food Max" onclick="foodMax()" style="width: 140px; border: 3px solid rgb(70,130,180)">
+        <span id="para6">Costs 200 food- food max increased by 200</span><br>
+        </span>
+        <span id="wrap5">
+        <input type="button" id="butt7" value="Stone Max" onclick="stoneMax()" style="width: 140px; border: 3px solid rgb(70,130,180)">
+        <span id="para7">Costs 200 stone- stone max increased by 200</span><br>
+        </span>
+        <span id="wrap6">
+        <input type="button" id="butt8" value="Motivated Workers" onclick="foodStoneUp()" style="width: 140px; border: 3px solid rgb(70,130,180)">
+        <span id="para8">Costs 100 wood, 50 food and stone- gathering food and stone yields 3 resorces per click</span><br>
+        </span>
+        <span id="wrap7">
+        <input type="button" id="butt9" value="Golden Apples" onclick="gapUnlock()" style="width: 140px; border: 3px solid rgb(70,130,180)">
+        <span id="para9">Costs 200 of every resource- unlock golden apples, a rare currency</span><br>
+        </span>
+        <span id="wrap8">
+        <input type="button" id="butt10" value="Trophy!" onclick="winTrophy()" style="width: 140px; border: 3px solid rgb(70,130,180)">
+        <span id="para10">Costs 400 of each resource, 25 apples and 3 gapples- win the game!</span><br>
+        </span>
+        <span id="wrap9">
+        <input type="button" id="butt11" value="Clear Data" onclick="storgClear()" style="width: 140px; border: 3px solid rgb(179, 45, 21); margin-top: 10px;">
+        <span id="para10">Costs 400 of each resource, 25 apples and 3 gapples- win the game!</span><br>
+        </span>
+    </section>
+    </div>
+    <div>
+    <section>
+        <h2><u>Purchased:</u></h2>
+        <p id="paragraph">
+            <span id="para12">1. efficient woodcutters</span><br>
+            <span id="para13">2. wood maximum</span><br>
+            <span id="para14">3. food maximum</span><br>
+            <span id="para15">4. stone maximum</span><br>
+            <span id="para16">5. motivated workers</span><br>
+            <span id="para17">6. golden apples</span><br>
+            <span id="para18">7. gold trophy</span>
+        </p>
+    </section>
+    </div>
+    </body>
 </html>
