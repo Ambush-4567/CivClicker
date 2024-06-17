@@ -8,10 +8,10 @@ let gS = {
     totalPop: 0, idleCitizens: 0, 
     starving: false,
     foodRatio: 0, woodRatio: 0, stoneRatio: 0,
-    get personCost() {
-        return 20 + Math.floor(gS.totalPop / 50);
-    },
 }
+
+let userNum = 0;
+let personCost = 20 + Math.floor(gS.totalPop / 50);
 
 function startUp() 
 {
@@ -36,23 +36,28 @@ function resourceGet()
 
     if(gS.foodCount < gS.foodCapAm) {
         gS.foodCount += 1.4 * gS.farmers;
+        gS.foodCount -= gS.totalPop;
     }
 
     if(gS.stoneCount < gS.stoneCapAm) {
         gS.stoneCount += 0.25 * gS.miners;
     }
+//block for citizen eating
 
+//block for starving
     if(gS.foodCount >= 1) {
         gS.foodCount -= gS.woodRatio;
         gS.starving = false;
-    } else {
+    } else if(gS.foodCount <= 0 && gS.foodRatio < 0.0) {
         gS.starving = true;
         gS.foodCount = 0;
-    }
+    } 
 
     if(gS.starving == true && gS.idleCitizens >= 1) {
         gS.idleCitizens -= 1;
         gS.totalPop -= 1;
+    } else {
+        gS.starving = false;
     }
     allChecks(); saveGame();
 }
@@ -219,7 +224,10 @@ function storgClear()
         gS.gapples = 0;
         gS.totalPop = 0;
         gS.idleCitizens = 0;  
-        gS.starving = false;      
+        gS.starving = false;    
+        gS.foodRatio = 0;  
+        gS.woodRatio = 0;  
+        gS.stoneRatio = 0;  
         location.reload();
       } 
 }
@@ -240,23 +248,24 @@ function ratioCheck()
     gS.stoneRatio = (0.25 * gS.miners).toFixed(1);
 
     if(gS.woodRatio >= 0.1) {
-        document.getElementById('wRatio').style.color = 'green'
+        document.getElementById('wRatio').style.color = 'green';
     } else {
-        document.getElementById('wRatio').style.color = 'grey'
+        document.getElementById('wRatio').style.color = 'grey';
     }
 
     if(gS.stoneRatio >= 0.1) {
-        document.getElementById('sRatio').style.color = 'green'
+        document.getElementById('sRatio').style.color = 'green';
     } else {
-        document.getElementById('sRatio').style.color = 'grey'
+        document.getElementById('sRatio').style.color = 'grey';
     }
 
     if(gS.foodRatio >= 0.1) {
-        document.getElementById('fRatio').style.color = 'green'
+        document.getElementById('fRatio').style.color = '#4CBB17';
     } else if(gS.foodRatio == 0.0) {
-        document.getElementById('fRatio').style.color = 'grey' }
+        document.getElementById('fRatio').style.color = 'grey'; }
     else { 
-        document.getElementById('fRatio').style.color = 'red' }
+        document.getElementById('fRatio').style.color = 'red'; }
+
     document.getElementById('wRatio').innerHTML = gS.woodRatio;
     document.getElementById('fRatio').innerHTML = gS.foodRatio;
     document.getElementById('sRatio').innerHTML = gS.stoneRatio;
@@ -274,6 +283,7 @@ function allChecks()
     document.getElementById('para3').innerHTML = Math.floor(gS.stoneCount);
     document.getElementById('appletxt').innerHTML = gS.apples;
     document.getElementById('gappletxt2').innerHTML = gS.gapples;
+    personCost = 20 + Math.floor(gS.totalPop / 50);
     if(gS.butt9On == true) {
         document.getElementById('gappletxt').style.visibility = 'visible';
         document.getElementById('gappletxt2').style.visibility = 'visible'; }
@@ -377,239 +387,193 @@ function butDisable()
             document.getElementById('wrap7').style.display = 'none'; }
 }
 
-function populateUp()
+function userNumPop()
 {
-    if(gS.foodCount >= gS.personCost) {
-        gS.foodCount -= gS.personCost;
-        gS.totalPop += 1; gS.idleCitizens += 1;
-        allChecks(); saveGame(); personCost();
-    }
+    if(gS.foodCount >= personCost * userNum) {
+        gS.totalPop += userNum;
+        gS.idleCitizens += userNum;
+        gS.foodCount -= personCost * userNum;
+        allChecks();  saveGame(); }
 }
-
+function addPop()
+{
+    userNum = 1;
+    userNumPop();
+}
 function popAdd10()
 {
-    if(gS.foodCount >= gS.personCost*10) {
-        gS.foodCount -= gS.personCost*10;
-        gS.totalPop += 10; gS.idleCitizens += 10;
-        allChecks(); saveGame();
-    }
+    userNum = 10;
+    userNumPop();
 }
-
 function popAdd100()
 {
-    if(gS.foodCount >= gS.personCost*100) {
-        gS.foodCount -= gS.personCost*100;
-        gS.totalPop += 100; gS.idleCitizens += 100;
-        allChecks(); saveGame();
-    }
+    userNum = 1;
+    userNumPop();
 }
-
 function popAddMax()
 {
-    if (gS.foodCount >= gS.personCost) {
-        const maxPopIncrease = Math.floor(gS.foodCount / gS.personCost);
+   const maxIncrease = Math.floor(gS.foodCount / personCost);
+   userNum = maxIncrease;
+   userNumPop();
+}
 
-        gS.foodCount -= gS.personCost * maxPopIncrease;
-        gS.totalPop += maxPopIncrease;
-        gS.idleCitizens += maxPopIncrease;
-
-        allChecks();
-        saveGame();
+function userNumWood()
+{
+    if(gS.idleCitizens >= userNum) {
+        gS.idleCitizens -= userNum;
+        gS.woodCutters += userNum;
+        allChecks();  saveGame(); }
+}
+function autoWood()
+{
+    userNum = 1;
+    userNumWood();
+}
+function autoW10()
+{
+    userNum = 10;
+    userNumWood();
+}
+function autoW100()
+{
+   
+    userNum = 100;
+    userNumWood();
+}
+function autoWMax()
+{
+    userNum = gS.idleCitizens;
+    userNumWood();
+}
+function woodNeg1()
+{ 
+    if(gS.woodCutters > 0) {
+    userNum = -1;
+    userNumWood(); }
+}
+function woodNeg10()
+{
+    if(gS.woodCutters > 0) {
+        userNum = -10;
+        userNumWood(); }
+}
+function woodNeg100()
+{
+    if(gS.woodCutters > 0) {
+        userNum = -100;
+        userNumWood(); }
+}
+function woodNegMax()
+{
+    if(gS.woodCutters > 0) {
+        userNum = gS.woodCutters * -1;
+        userNumWood();
     }
 }
 
-function autoWood()
+function userNumFood()
 {
-    if(gS.idleCitizens >= 1) {
-    gS.woodCutters += 1;
-    gS.idleCitizens -= 1;
-    allChecks(); saveGame(); ratioChecks(); }
+    if(gS.idleCitizens >= userNum) {
+        gS.idleCitizens -= userNum;
+        gS.farmers += userNum;
+        allChecks();  saveGame(); }
 }
-
-function autoW10()
-{
-    if(gS.idleCitizens >= 10) {
-        gS.woodCutters += 10;
-        gS.idleCitizens -= 10;
-        allChecks(); saveGame(); }
-}
-
-function autoW100()
-{
-    if(gS.idleCitizens >= 100) {
-        gS.woodCutters += 100;
-        gS.idleCitizens -= 100;
-        allChecks(); saveGame(); }
-}
-
-function autoWMax()
-{
-    if(gS.idleCitizens >= 1) {
-        gS.woodCutters += gS.idleCitizens;
-        gS.idleCitizens = 0;
-        allChecks(); saveGame(); }
-}
-
-function woodNeg1()
-{
-    if(gS.woodCutters >= 1) {
-        gS.woodCutters -= 1;
-        gS.idleCitizens += 1;
-        allChecks(); saveGame(); }
-}
-
-function woodNeg10()
-{
-    if(gS.woodCutters >= 10) {
-        gS.woodCutters -= 10;
-        gS.idleCitizens += 10;
-        allChecks(); saveGame(); }
-}
-
-function woodNeg100()
-{
-    if(gS.woodCutters >= 100) {
-        gS.woodCutters -= 100;
-        gS.idleCitizens += 100;
-        allChecks(); saveGame(); }
-}
-
-function woodNegMax()
-{
-    if(gS.woodCutters >= 1) {
-        gS.idleCitizens += gS.woodCutters;
-        gS.woodCutters = 0;
-        allChecks(); saveGame(); }
-}
-
 function autoFood()
 {
-    if(gS.idleCitizens >= 1) {
-        gS.farmers += 1;
-        gS.idleCitizens -= 1;
-        allChecks(); saveGame(); }
+    userNum = 1;
+    userNumFood();
 }
-
 function autoF10()
 {
-    if(gS.idleCitizens >= 10) {
-        gS.farmers += 10;
-        gS.idleCitizens -= 10;
-        allChecks(); saveGame(); }
+    userNum = 10;
+    userNumFood();
 }
-
 function autoF100()
 {
-    if(gS.idleCitizens >= 100) {
-        gS.farmers += 100;
-        gS.idleCitizens -= 100;
-        allChecks(); saveGame(); }
+   
+    userNum = 100;
+    userNumFood();
 }
-
 function autoFMax()
 {
-    if(gS.idleCitizens >= 1) {
-        gS.farmers += gS.idleCitizens;
-        gS.idleCitizens = 0;
-        allChecks(); saveGame(); }
+    userNum = gS.idleCitizens;
+    userNumFood();
 }
-
 function foodNeg1()
-{
-    if(gS.farmers >= 1) {
-        gS.farmers -= 1;
-        gS.idleCitizens += 1;
-        allChecks(); saveGame(); }
+{ 
+    if(gS.farmers > 0) {
+    userNum = -1;
+    userNumFood(); }
 }
-
 function foodNeg10()
 {
-    if(gS.farmers >= 10) {
-        gS.farmers -= 10;
-        gS.idleCitizens += 10;
-        allChecks(); saveGame(); }
+    if(gS.farmers > 0) {
+        userNum = -10;
+        userNumFood(); }
 }
-
 function foodNeg100()
 {
-    if(gS.farmers >= 100) {
-        gS.farmers -= 100;
-        gS.idleCitizens += 100;
-        allChecks(); saveGame(); }
+    if(gS.farmers > 0) {
+        userNum = -100;
+        userNumFood(); }
 }
-
 function foodNegMax()
 {
-    if(gS.farmers >= 1) {
-        gS.idleCitizens += gS.farmers;
-        gS.farmers = 0;
-        allChecks(); saveGame(); }
+    if(gS.farmers > 0) {
+        userNum = gS.farmers * -1;
+        userNumFood();
+    }
 }
 
+function userNumStone()
+{
+    if(gS.idleCitizens >= userNum) {
+        gS.idleCitizens -= userNum;
+        gS.miners += userNum;
+        allChecks();  saveGame(); }
+}
 function autoStone()
 {
-    if(gS.idleCitizens >= 1) {
-        gS.miners += 1;
-        gS.idleCitizens -= 1;
-        allChecks(); saveGame(); }
+    userNum = 1;
+    userNumStone();
 }
-
 function autoS10()
 {
-    if(gS.idleCitizens >= 10) {
-        gS.miners += 10;
-        gS.idleCitizens -= 10;
-        allChecks(); saveGame(); }
+    userNum = 10;
+    userNumStone();
 }
-
 function autoS100()
 {
-    if(gS.idleCitizens >= 100) {
-        gS.miners += 100;
-        gS.idleCitizens -= 100;
-        allChecks(); saveGame(); }
+   
+    userNum = 100;
+    userNumStone();
 }
-
 function autoSMax()
 {
-    if(gS.idleCitizens >= 1) {
-        gS.miners += gS.idleCitizens;
-        gS.idleCitizens = 0;
-        allChecks(); saveGame(); }
+    userNum = gS.idleCitizens;
+    userNumStone();
 }
-
 function stoneNeg1()
-{
-    if(gS.miners >= 1) {
-        gS.miners -= 1;
-        gS.idleCitizens += 1;
-        allChecks(); saveGame(); }
+{ 
+    if(gS.miners > 0) {
+    userNum = -1;
+    userNumStone(); }
 }
-
 function stoneNeg10()
 {
-    if(gS.miners >= 10) {
-        gS.miners -= 10;
-        gS.idleCitizens += 10;
-        allChecks(); saveGame(); }
+    if(gS.miners > 0) {
+        userNum = -10;
+        userNumStone(); }
 }
-
 function stoneNeg100()
 {
-    if(gS.miners >= 100) {
-        gS.miners -= 100;
-        gS.idleCitizens += 100;
-        allChecks(); saveGame(); }
+    if(gS.miners > 0) {
+        userNum = -100;
+        userNumStone(); }
 }
-
 function stoneNegMax()
 {
-    if(gS.miners >= 1) {
-        gS.idleCitizens += gS.farmers;
-        gS.miners = 0;
-        allChecks(); saveGame(); }
+    if(gS.miners > 0) {
+        userNum = gS.miners * -1;
+        userNumStone(); }
 }
-
-let userNum;
-
-
