@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Concert+One&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=M+PLUS+1p&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@500&display=swap');
+
 body
 {
     font-family: 'Concert One';
@@ -11,17 +12,11 @@ body
     background: linear-gradient(90deg, rgba(58,99,164,1) 0%, rgba(24,81,85,1) 0%, rgba(50,145,164,1) 57%);
 }
 
-button,
-input[type="button"] {
+button, input[type="button"] 
+{
     cursor: pointer;
     font-family: "M PLUS 1p", sans-serif;
     font-weight: 500;
-    font-style: normal;
-}
-
-div
-{
-    margin-top: 10px;
 }
 
 #large
@@ -29,36 +24,56 @@ div
     font-size: 130%;
 }
 
-span
-{
-    margin-top: 100px;
-}
-
 h1
 {
     text-align: center;
 }
 
-#butt4 + #para4, #butt5 + #para5, #butt6 + #para6, #butt7 + #para7, #butt8 + #para8, #butt9 + #para9, #butt10 + #para10, #butt11 + #para11, #butt12 + #para12, #butt13 + #para13
-{
+.inner1 + .inner2 {
+    display: inline-block;
+  }
+  
+  .button {
+    width: 140px;
+    border: 3px solid rgb(70, 130, 180);
+  }
+
+  .button2 {
+    width: 140px;
+    border: 3px solid rgb(81, 193, 6);
+  }
+
+  .button3 {
+    width: 140px;
+    border: 3px solid rgb(185, 33, 13);
+  }
+
+  .button4 {
+    width: 140px;
+    border: 3px solid rgb(219, 172, 52);
+  }
+
+  .auto {
+    width: auto;
+  }
+  
+  .paragraph {
     display: none;
     padding: 5px;
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
     margin-left: 10px;
-    margin-top: 3px;
-}
-
-#butt4:hover + #para4, #butt5:hover + #para5, #butt6:hover + #para6, #butt7:hover + #para7, #butt8:hover + #para8, #butt9:hover + #para9, #butt10:hover + #para10, #butt11:hover + #para11, #butt12:hover + #para12, #butt13:hover + #para13 {
+    margin-top: 1px;
+  }
+  
+  .button:hover + .paragraph {
     display: inline-block;
-}
+  }
 
-#bar1 + #bar2 + #bar3 + #bar4
-{
+  .button3:hover + .paragraph {
     display: inline-block;
-    margin-top: 20px;
-}
+  }
 
 #bar1, #bar2, #bar3, #bar4
 {
@@ -68,15 +83,15 @@ h1
     border-radius: 10px;
     margin-left: -2px;
     margin-right: -2px;
+    display: inline-block;
 }
 
 #bar1:hover, #bar2:hover, #bar3:hover, #bar4:hover
 {
-    background-color: #fff;
     box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.5);
 }
 
-#header1, #header2, #header3
+.header
 {
     font-family: "M PLUS 1p", sans-serif;
     font-weight: 400;
@@ -84,12 +99,13 @@ h1
 
 }
 
-#paragraph1, #paragraph2, #paragraph3, #paragraph4, #paragraph5
+.Bparagraph
 {
     font-family: "M PLUS 1p", sans-serif;
     font-weight: 400;
     font-style: normal;
     font-weight: bold;
+    line-height: 0.8;
 }
 
 .bigreg
@@ -100,3 +116,55 @@ h1
     font-style: normal;
     font-weight: bold;
 }
+
+#gapHid
+{
+    height: 0px;
+}
+
+.slanted
+{
+    font-family: "M PLUS 1p", sans-serif;
+    font-weight: 400;
+    font-style: italic;
+    color:darkgrey;
+}
+
+.padded
+{
+    padding: 3px 0px 3px 0px;
+}
+
+.exPadded
+{
+    padding: 12px 0px 0px 0px;
+}
+
+#leftbox, #rightbox, #furthestbox, #farbox
+{
+  display: inline-block;
+}
+
+#rightbox, #furthestbox, #farbox
+{
+  margin: 0px 0px 0px 150px;
+  font-family: "M PLUS 1p", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  vertical-align: top;
+}
+
+.bord
+{
+  border: 2px solid lightsalmon;
+  padding: 2px 2px;
+}
+
+#logHide
+{
+  font-family: "M PLUS 1p", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 0.7;
+}
+
