@@ -1,64 +1,109 @@
 let gS = {
-    woodCount: 0, foodCount: 0, stoneCount: 0,
-    butt4On: false, butt5On: false, butt6On: false, butt7On: false, butt8On: false, butt9On: false, butt10On: false,
+    woodCount: 0, foodCount: 0, stoneCount: 0, metalCount: 0, leatherCount: 0, oreCount: 0, skinCount: 0, herbCount: 0,
+    b4: false, b5: false, b6: false, b7: false, b8: false, b9: false, b10: false, b11: false, b12: false, b13: false,
+    b14: false, b15: false, b16: false, b17: false, b18: false, b19: false, b20: false,
     wProduce: 100, fProduce: 100, sProduce: 100,
-    woodCutters: 0, farmers: 0, miners: 0,
+    woodCutters: 0, farmers: 0, miners: 0, blacksmiths: 0, tanners: 0,
     woodCapAm: 200, foodCapAm: 200, stoneCapAm: 200,
-    apples: 0, gapples: 0,
-    totalPop: 0, idleCitizens: 0, 
+    apples: 20, gapples: 0,
+    totalPop: 0, idleCitizens: 0, popMax: 10,
+    farmRate: 1.4, woodRate: 0.5, mineRate: 0.25, oreRate: 0, skinRate: 0, metalRate: 0.5, leatherRate: 0.5,
     starving: false,
-    foodRatio: 0, woodRatio: 0, stoneRatio: 0,
-}
-
+    foodRatio: 0, woodRatio: 0, stoneRatio: 0, oreRatio: 0, skinsRatio: 0, metalRatio: 0, leatherRatio: 0,
+    barnStrg: 200, houseStrg: 10,
+    tents: 0, wHuts: 0, cottages: 0, houses: 0, mansions: 0, barns: 0, woodStorage: 0, stoneStockpiles: 0, mills: 0, graveyards: 0,
+};
+//block for global variables, uneccesary to put in localStorage.
 let userNum = 0;
+let stats = false;
 let personCost = 20 + Math.floor(gS.totalPop / 50);
+let state = 1;
+let hunger = 0;
+const goldCheck = () => {if(gS.b9 == true) {
+    document.getElementById('gapHid').style.visibility = 'visible';
+    document.getElementById("gapHid").style.height = "auto"; }
+else {document.getElementById('gapHid').style.visibility = 'hidden'; } };
+//block for mansonry uograde enabling upgrades.
+let masCheck = () => {if(gS.b10 == true) {
+    document.getElementById('inner2').style.display = 'block'; }
+    else {document.getElementById('inner2').style.display = 'none'; } };
+//block for construction upgrade enabling upgrades.
+let constCheck = () => {if(gS.b18 == true) {
+    document.getElementById('inner3').style.display = 'block'; }
+    else {document.getElementById('inner3').style.display = 'none'; } };
 
 function startUp() 
 {
    if (localStorage.getItem('gS')) {
-        gS = JSON.parse(localStorage.getItem('gS'));
-    }
-    allChecks();
-    document.getElementById('gappletxt').style.visibility = 'hidden';
-    document.getElementById('gappletxt2').style.visibility = 'hidden';
-    butDisable();
-    sect1();
-    importData();
-    timer = setInterval(checkUpgrade, 100);
-    timer2 = setInterval(resourceGet, 1000); 
+        gS = JSON.parse(localStorage.getItem('gS')); }
+    let timer = setInterval(checkUpgrade, 100);
+    let timer2 = setInterval(resourceGet, 1000); 
+    document.getElementById('logHide').style.display = 'none';
+    importData(); sect1(); 
+    butDisable(); allChecks(); goldCheck(); masCheck(); constCheck();
 }
 
 function resourceGet()
 {
+    let randoNum = Math.floor(Math.random() * 20);
+
     if(gS.woodCount < gS.woodCapAm) {
-        gS.woodCount += 0.5 * gS.woodCutters;
+        gS.woodCount += gS.woodRate * gS.woodCutters;
     }
 
     if(gS.foodCount < gS.foodCapAm) {
-        gS.foodCount += 1.4 * gS.farmers;
-        gS.foodCount -= gS.totalPop;
+        gS.foodCount += (gS.farmRate * gS.farmers) - gS.totalPop;
+        if(gS.b12 == true && randoNum <= 2 && gS.foodCount < gS.foodCapAm && gS.farmers >= 1) {
+            gS.skinCount += Math.floor(1 + (gS.foodRatio / 3));
+        }
     }
 
     if(gS.stoneCount < gS.stoneCapAm) {
-        gS.stoneCount += 0.25 * gS.miners;
+        gS.stoneCount += gS.mineRate * gS.miners;
     }
-//block for citizen eating
 
 //block for starving
-    if(gS.foodCount >= 1) {
-        gS.foodCount -= gS.woodRatio;
-        gS.starving = false;
-    } else if(gS.foodCount <= 0 && gS.foodRatio < 0.0) {
-        gS.starving = true;
-        gS.foodCount = 0;
-    } 
 
-    if(gS.starving == true && gS.idleCitizens >= 1) {
-        gS.idleCitizens -= 1;
-        gS.totalPop -= 1;
-    } else {
-        gS.starving = false;
-    }
+if (gS.foodCount >= 1) {
+    gS.starving = false;
+} else if (gS.foodCount <= 0 && gS.foodRatio < 0.0) {
+    gS.starving = true;
+    gS.foodCount = 0;
+}
+allChecks(); saveGame();
+//block for dying population. note the hunger variable ensures 2-3 seconds have passed first.
+if(gS.starving == false) {
+    hunger = 0;
+    return;
+} else if(gS.starving == true && hunger == 2) {
+       if (gS.idleCitizens >= 1) {
+        let icRate = Math.ceil(gS.idleCitizens / 20);
+        gS.idleCitizens -= icRate; gS.totalPop -= icRate;
+} else if (gS.woodCutters >= 1) {
+        let wcRate = Math.ceil(gS.woodCutters / 20);
+        gS.woodCutters -= wcRate; gS.totalPop -= wcRate;
+} else if (gS.farmers >= 1) {
+        let fRate = Math.ceil(gS.farmers / 20);
+        gS.farmers -= fRate; gS.totalPop -= fRate;
+} else if (gS.miners >= 1) {
+        let mRate = Math.ceil(gS.miners / 20);
+        gS.miners -= mRate; gS.totalPop -= mRate;
+} else if (gS.blacksmiths >= 1) {
+        let bsRate = Math.ceil(gS.blacksmiths / 20);
+        gS.blacksmiths -= bsRate; gS.totalPop -= bsRate;
+} else if (gS.tanners >= 1) {
+        let tRate = Math.ceil(gS.tanners / 20);
+        gS.tanners -= tRate; gS.totalPop -= tRate;
+} 
+} else if(gS.starving == true && hunger <= 1) {
+ if (hunger == 0) {
+    hunger = 1;
+} else if (hunger == 1) {
+    hunger = 2;
+} else { 
+    gS.starving = false;
+    hunger = 0; 
+} }
     allChecks(); saveGame();
 }
 
@@ -68,6 +113,10 @@ function sect1()
     document.getElementById('box3').style.display = 'none';
     document.getElementById('box4').style.display = 'none';
     document.getElementById('box1').style.display = 'block';
+    document.getElementById('bar1').style.backgroundColor = '#fff';
+    document.getElementById('bar2').style.backgroundColor = 'lightslategrey';
+    document.getElementById('bar3').style.backgroundColor = 'lightslategrey';
+    document.getElementById('bar4').style.backgroundColor = 'lightslategrey';
 }
 
 function sect2()
@@ -76,6 +125,10 @@ function sect2()
     document.getElementById('box3').style.display = 'none';
     document.getElementById('box4').style.display = 'none';
     document.getElementById('box2').style.display = 'block';
+    document.getElementById('bar2').style.backgroundColor = '#fff';
+    document.getElementById('bar1').style.backgroundColor = 'lightslategrey';
+    document.getElementById('bar3').style.backgroundColor = 'lightslategrey';
+    document.getElementById('bar4').style.backgroundColor = 'lightslategrey';
 }
 
 function sect3()
@@ -84,6 +137,10 @@ function sect3()
     document.getElementById('box2').style.display = 'none';
     document.getElementById('box4').style.display = 'none';
     document.getElementById('box3').style.display = 'block';
+    document.getElementById('bar3').style.backgroundColor = '#fff';
+    document.getElementById('bar1').style.backgroundColor = 'lightslategrey';
+    document.getElementById('bar2').style.backgroundColor = 'lightslategrey';
+    document.getElementById('bar4').style.backgroundColor = 'lightslategrey';
 }
 
 function sect4()
@@ -92,6 +149,10 @@ function sect4()
     document.getElementById('box2').style.display = 'none';
     document.getElementById('box3').style.display = 'none';
     document.getElementById('box4').style.display = 'block';
+    document.getElementById('bar4').style.backgroundColor = '#fff';
+    document.getElementById('bar1').style.backgroundColor = 'lightslategrey';
+    document.getElementById('bar2').style.backgroundColor = 'lightslategrey';
+    document.getElementById('bar3').style.backgroundColor = 'lightslategrey';
 }
 
 function exportSave()
@@ -170,6 +231,15 @@ function checkUpgrade()
     } else if (gS.woodCount <= 399 || gS.foodCount <= 399 || gS.stoneCount <= 399 || gS.apples <= 24 || gS.gapples <= 2) {
         document.getElementById('butt10').disabled = true;
     }
+
+    if(gS.foodCount >= 400 && gS.apples >= 20) {
+        document.getElementById('butt11').removeAttribute('disabled'); }
+    else if(gS.foodCount <= 399 || gS.apples <= 19) {
+        document.getElementById('butt11').disabled = true;
+    }
+
+
+    
     //strg caps.
     
     if(gS.foodCount >= gS.foodCapAm) {
@@ -187,9 +257,9 @@ function checkUpgrade()
     if(gS.woodCount >= gS.woodCapAm) {
         gS.woodCount = gS.woodCapAm;
         document.getElementById('butt1').disabled = true;
-        allChecks();
-    } else {document.getElementById('butt1').removeAttribute('disabled'); }
-    document.getElementById('header1').innerHTML = gS.personCost;
+        allChecks(); }
+     else {document.getElementById('butt1').removeAttribute('disabled'); 
+ }
 }
 
 function saveGame()
@@ -199,72 +269,114 @@ function saveGame()
 
 function storgClear()
 {
-    if (confirm("Are you sure you want to delete all data?")) {
+   if (confirm("Are you sure you want to delete all data?")) {
         localStorage.clear();
         gS.woodCount = 0;
         gS.foodCount = 0;
         gS.stoneCount = 0;
-        gS.butt4On = false;
-        gS.butt5On = false;
-        gS.butt6On = false;
-        gS.butt7On = false;
-        gS.butt8On = false;
-        gS.butt9On = false;
-        gS.butt10On = false;
+        gS.metalCount = 0;
+        gS.leatherCount = 0;
+        gS.oreCount = 0;
+        gS.skinCount = 0;
+        gS.herbCount = 0;
+        gS.b4 = false;
+        gS.b5 = false;
+        gS.b6 = false;
+        gS.b7 = false;
+        gS.b8 = false;
+        gS.b9 = false;
+        gS.b10 = false;
+        gS.b11 = false;
+        gS.b12 = false;
+        gS.b13 = false;
+        gS.b14 = false;
+        gS.b15 = false;
+        gS.b16 = false;
+        gS.b17 = false;
+        gS.b18 = false;
+        gS.b19 = false;
+        gS.b20 = false;
         gS.wProduce = 100;
         gS.fProduce = 100;
         gS.sProduce = 100;
         gS.woodCutters = 0;
         gS.farmers = 0;
         gS.miners = 0;
-        gS.woodCapAm = 200;
-        gS.foodCapAm = 200;
-        gS.stoneCapAm = 200;
-        gS.apples = 0;
-        gS.gapples = 0;
+        gS.blacksmiths = 0;
+        gS.tanners = 0;
+        gS.woodCapAm = 1000;
+        gS.foodCapAm = 1000;
+        gS.stoneCapAm = 1000;
+        gS.apples = 25;
+        gS.gapples = 25;
         gS.totalPop = 0;
-        gS.idleCitizens = 0;  
+        gS.idleCitizens = 0; 
+        gS.popMax = 10;
         gS.starving = false;    
         gS.foodRatio = 0;  
         gS.woodRatio = 0;  
         gS.stoneRatio = 0;  
+        gS.farmRate = 1.4;
+        gS.woodRate = 0.5;
+        gS.mineRate = 0.25;
+        gS.tents = 0; 
+        gS.wHuts = 0;
+        gS.cottages = 0;
+        gS.houses = 0;
+        gS.mansions= 0; 
+        gS.barns = 0;
+        gS.woodStorage = 0;
+        gS.stoneStockpiles = 0;
+        gS.mills = 0;
+        gS.graveyards = 0;
         location.reload();
       } 
 }
 
 function appCheck()
 {
-    if (Math.ceil(Math.random() * 100) >= 98) {
+    if (Math.ceil(Math.random() * 100) >= 1) {
         gS.apples += 1; document.getElementById('appletxt').innerHTML = gS.apples; }
 
-      if (Math.ceil(Math.random() * 1000) >= 998 && gS.butt9On == true) {
-        gS.gapples += 1; document.getElementById('gappletxt2').innerHTML = gS.gapples; }
+      if (Math.ceil(Math.random() * 1000) >= 9 && gS.b9 == true) {
+        gS.gapples += 1; document.getElementById('gappletxt').innerHTML = gS.gapples; }
 }
 
 function ratioCheck()
 {
-    gS.woodRatio = (0.5 * gS.woodCutters).toFixed(1);
-    gS.foodRatio = (1.4 * gS.farmers - gS.totalPop).toFixed(1);
-    gS.stoneRatio = (0.25 * gS.miners).toFixed(1);
+    gS.woodRatio = (gS.woodRate * gS.woodCutters).toFixed(1);
+    gS.foodRatio = (gS.farmRate * gS.farmers - gS.totalPop).toFixed(1);
+    gS.stoneRatio = (gS.mineRate * gS.miners).toFixed(1);
+    gS.oreRatio = (gS.oreRate - gS.metalRate).toFixed(1);
+    gS.skinsRatio = (gS.skinRate - gS.leatherRate).toFixed(1);
+    gS.metalRatio = (gS.metalRate).toFixed(1);
+    gS.leatherRatio = (gS.leatherRate).toFixed(1);
 
     if(gS.woodRatio >= 0.1) {
-        document.getElementById('wRatio').style.color = 'green';
+        document.getElementById('wRatio').style.color = '#4CBB17';
+        document.getElementById('minus').innerHTML = '+';
     } else {
         document.getElementById('wRatio').style.color = 'grey';
+        document.getElementById('minus').innerHTML = '';
     }
 
     if(gS.stoneRatio >= 0.1) {
-        document.getElementById('sRatio').style.color = 'green';
+        document.getElementById('sRatio').style.color = '#4CBB17';
+        document.getElementById('minus3').innerHTML = '+';
     } else {
         document.getElementById('sRatio').style.color = 'grey';
+        document.getElementById('minus3').innerHTML = '';
     }
 
     if(gS.foodRatio >= 0.1) {
         document.getElementById('fRatio').style.color = '#4CBB17';
+        document.getElementById('minus2').innerHTML = '+';
     } else if(gS.foodRatio == 0.0) {
-        document.getElementById('fRatio').style.color = 'grey'; }
+        document.getElementById('fRatio').style.color = 'grey';
+        document.getElementById('minus2').innerHTML = ''; }
     else { 
-        document.getElementById('fRatio').style.color = 'red'; }
+        document.getElementById('fRatio').style.color = 'red';
+        document.getElementById('minus2').innerHTML = ''; }
 
     document.getElementById('wRatio').innerHTML = gS.woodRatio;
     document.getElementById('fRatio').innerHTML = gS.foodRatio;
@@ -273,44 +385,64 @@ function ratioCheck()
 
 function allChecks() 
 {
+    personCost = 20 + Math.floor(gS.totalPop / 50);
     document.getElementById('count').innerHTML = gS.totalPop;
     document.getElementById('count1').innerHTML = gS.idleCitizens;
     document.getElementById('count2').innerHTML = gS.woodCutters;
     document.getElementById('count3').innerHTML = gS.farmers;
     document.getElementById('count4').innerHTML = gS.miners;
+    document.getElementById('count5').innerHTML = gS.blacksmiths;
+    document.getElementById('count6').innerHTML = gS.tanners;
     document.getElementById('para1').innerHTML = Math.floor(gS.woodCount);
     document.getElementById('para2').innerHTML = Math.floor(gS.foodCount);
     document.getElementById('para3').innerHTML = Math.floor(gS.stoneCount);
     document.getElementById('appletxt').innerHTML = gS.apples;
-    document.getElementById('gappletxt2').innerHTML = gS.gapples;
-    personCost = 20 + Math.floor(gS.totalPop / 50);
-    if(gS.butt9On == true) {
-        document.getElementById('gappletxt').style.visibility = 'visible';
-        document.getElementById('gappletxt2').style.visibility = 'visible'; }
-        ratioCheck();
+    document.getElementById('gappletxt').innerHTML = gS.gapples;
+    document.getElementById('update1').innerHTML = gS.woodCapAm;
+    document.getElementById('update2').innerHTML = gS.foodCapAm;
+    document.getElementById('update3').innerHTML = gS.stoneCapAm;
+    document.getElementById('update4').innerHTML = personCost;
+    document.getElementById('skins').innerHTML = gS.skinCount;
+    document.getElementById('ore').innerHTML = gS.oreCount;
+    document.getElementById('herbs').innerHTML = gS.herbCount;
+    document.getElementById('people').innerHTML = gS.totalPop;
+    document.getElementById('popMax').innerHTML = gS.popMax;
+    ratioCheck();
 }
 
 function woodGet()
 {
+    let chance1 = Math.floor(Math.random() * 10);
     gS.woodCount += gS.wProduce;
+    if(chance1 >= 9) {
+        gS.herbCount += 2;
+    }
     allChecks(); appCheck(); saveGame();
 }
 
 function foodGet()
 {
+    let chance2 = Math.floor(Math.random() * 10);
     gS.foodCount += gS.fProduce;
+    if(chance2 >= 8) {
+        gS.skinCount += 1;
+    }
     allChecks(); saveGame();
 }
 
 function stoneGet()
 {
+    let chance3 = Math.floor(Math.random() * 10);
     gS.stoneCount += gS.sProduce;
+    if(chance3 <= 3) {
+        gS.oreCount += 1;
+    }
     allChecks(); saveGame();
 }
 
 function woodUp()
 {
-    gS.butt4On = true;
+    gS.b4 = true;
     gS.woodCount -= 100;
     gS.wProduce += 2;
     allChecks(); saveGame(); butDisable();
@@ -318,31 +450,31 @@ function woodUp()
 
 function woodMax()
 {
-    gS.butt5On = true;
-    gS.woodCapAm = 400;
+    gS.b5 = true;
+    gS.woodCapAm += 200;
     gS.woodCount -= 200;
     allChecks(); saveGame(); butDisable();
 }
 
 function foodMax()
 {
-    gS.butt6On = true;
-    gS.foodCapAm = 400;
+    gS.b6 = true;
+    gS.foodCapAm += 200;
     gS.foodCount -= 200;
     allChecks(); saveGame(); butDisable();
 }
 
 function stoneMax()
 {
-    gS.butt7On = true;
-    gS.stoneCapAm = 400;
+    gS.b7 = true;
+    gS.stoneCapAm += 200;
     gS.stoneCount -= 200;
     allChecks(); saveGame(); butDisable();
 }
 
 function foodStoneUp()
 {
-    gS.butt8On = true;
+    gS.b8 = true;
     gS.fProduce += 2;
     gS.sProduce += 2;
     gS.woodCount -= 100; gS.stoneCount -= 50; gS.foodCount -=50;
@@ -357,43 +489,122 @@ function resDump()
 
 function gapUnlock()
 {
-    gS.butt9On = true;
+    gS.b9 = true;
     gS.woodCount -= 200; gS.foodCount -= 200; gS.stoneCount -= 200;
+    goldCheck(); allChecks(); saveGame(); butDisable();
+}
+
+function masonClk()
+{
+    gS.b10 = true;
+    gS.woodCount -= 400; gS.foodCount -= 400; gS.stoneCount -= 400; gS.apples -= 25;
+    allChecks(); saveGame(); butDisable(); masCheck();
+}
+
+function sicklesUp()
+{
+    gS.b11 = true;
+    gS.foodCount -= 400; gS.apples -= 20;
+    gS.farmRate += 0.4;
     allChecks(); saveGame(); butDisable();
 }
 
-function winTrophy()
+function skinGet()
 {
-    gS.butt10On = true;
-    gS.woodCount -= 400; gS.foodCount -= 400; gS.stoneCount -= 400;
+    gS.b12 = true;
+    gS.skinCount -= 20; 
     allChecks(); saveGame(); butDisable();
+}
+
+function herbGet()
+{
+    gS.b13 = true;
+    gS.herbCount -= 20;
+    allChecks(); saveGame(); butDisable();
+}
+
+function oreGet()
+{
+    gS.b14 = true;
+    gS.oreCount -= 20;
+    allChecks(); saveGame(); butDisable();
+}
+
+function DomesticUp()
+{
+    gS.b15 = true;
+    gS.farmRate += 0.8;
+    allChecks(); saveGame(); butDisable();
+}
+
+function granUp()
+{
+    gS.b16 = true;
+    gS.barnStrg *= 2;
+    allChecks(); saveGame(); butDisable();
+}
+
+function millsOn()
+{
+    gS.b17 = true;
+    allChecks(); saveGame(); butDisable();
+}
+
+function constructClk()
+{
+    gS.b18 = true;
+    allChecks(); saveGame(); butDisable(); constCheck();
+}
+
+function mills1()
+{
+    gS.mills += 1;
+    allChecks(); saveGame(); butDisable(); 
 }
 
 function butDisable()
 {
-    if(gS.butt4On == true) {
+    if(gS.b4 == true) {
             document.getElementById('wrap1').style.display = 'none'; } 
-    if(gS.butt5On == true) {
+    if(gS.b5 == true) {
             document.getElementById('wrap2').style.display = 'none'; }
-    if(gS.butt6On == true) {
+    if(gS.b6 == true) {
             document.getElementById('wrap3').style.display = 'none'; }
-    if(gS.butt7On == true) {
+    if(gS.b7 == true) {
             document.getElementById('wrap4').style.display = 'none'; }
-    if(gS.butt8On == true) {
+    if(gS.b8 == true) {
             document.getElementById('wrap5').style.display = 'none'; }
-    if(gS.butt9On == true) {
+    if(gS.b9 == true) {
             document.getElementById('wrap6').style.display = 'none'; }
-    if(gS.butt10On == true) {
+    if(gS.b10 == true) {
             document.getElementById('wrap7').style.display = 'none'; }
+    if(gS.b11 == true) {
+            document.getElementById('wrap8').style.display = 'none'; }
+    if(gS.b12 == true) {
+            document.getElementById('wrap9').style.display = 'none'; }
+    if(gS.b13 == true) {
+            document.getElementById('wrap10').style.display = 'none'; }
+    if(gS.b14 == true) {
+            document.getElementById('wrap11').style.display = 'none'; }
+    if(gS.b15 == true) {
+            document.getElementById('wrap12').style.display = 'none'; }
+    if(gS.b16 == true) {
+            document.getElementById('wrap13').style.display = 'none'; }
+    if(gS.b17 == true) {
+            document.getElementById('wrap14').style.display = 'none'; }
+    if(gS.b18 == true) {
+            document.getElementById('wrap15').style.display = 'none'; }
 }
 
 function userNumPop()
 {
+    //checks for population limit
+    if(gS.totalPop < gS.popMax) {
     if(gS.foodCount >= personCost * userNum) {
         gS.totalPop += userNum;
         gS.idleCitizens += userNum;
         gS.foodCount -= personCost * userNum;
-        allChecks();  saveGame(); }
+        allChecks();  saveGame(); } }
 }
 function addPop()
 {
@@ -412,8 +623,12 @@ function popAdd100()
 }
 function popAddMax()
 {
+   let spaceLeft = gS.popMax - gS.totalPop
    const maxIncrease = Math.floor(gS.foodCount / personCost);
    userNum = maxIncrease;
+   if(userNum > spaceLeft) {
+    userNum = spaceLeft;
+   }
    userNumPop();
 }
 
@@ -577,3 +792,166 @@ function stoneNegMax()
         userNum = gS.miners * -1;
         userNumStone(); }
 }
+
+function userNumMetal()
+{
+    if(gS.idleCitizens >= userNum) {
+        gS.idleCitizens -= userNum;
+        gS.blacksmiths += userNum;
+        allChecks();  saveGame(); }
+}
+function autoMetal()
+{
+    userNum = 1;
+    userNumMetal();
+}
+function autoM10()
+{
+    userNum = 10;
+    userNumMetal();
+}
+function autoM100()
+{
+    userNum = 100;
+    userNumMetal();
+}
+function autoMMax()
+{
+    userNum = gS.idleCitizens;
+    userNumMetal();
+}
+function metalNeg1()
+{ 
+    if(gS.blacksmiths > 0) {
+    userNum = -1;
+    userNumMetal(); }
+}
+function metalNeg10()
+{
+    if(gS.blacksmiths > 0) {
+        userNum = -10;
+        userNumMetal(); }
+}
+function metalNeg100()
+{
+    if(gS.blacksmiths > 0) {
+        userNum = -100;
+        userNumMetal(); }
+}
+function metalNegMax()
+{
+    if(gS.blacksmiths > 0) {
+        userNum = gS.blacksmiths * -1;
+        userNumMetal(); }
+}
+
+function userNumLeather()
+{
+    if(gS.idleCitizens >= userNum) {
+        gS.idleCitizens -= userNum;
+        gS.tanners += userNum;
+        allChecks();  saveGame(); }
+}
+function autoLeather()
+{
+    userNum = 1;
+    userNumLeather();
+}
+function autoL10()
+{
+    userNum = 10;
+    userNumLeather();
+}
+function autoL100()
+{
+    userNum = 100;
+    userNumLeather();
+}
+function autoLMax()
+{
+    userNum = gS.idleCitizens;
+    userNumLeather();
+}
+function leatherNeg1()
+{ 
+    if(gS.tanners > 0) {
+    userNum = -1;
+    userNumLeather(); }
+}
+function leatherNeg10()
+{
+    if(gS.tanners > 0) {
+        userNum = -10;
+        userNumLeather(); }
+}
+function leatherNeg100()
+{
+    if(gS.tanners > 0) {
+        userNum = -100;
+        userNumLeather(); }
+}
+function leatherNegMax()
+{
+    if(gS.tanners > 0) {
+        userNum = gS.tanners * -1;
+        userNumLeather(); }
+}
+
+function caikPlug()
+{
+    window.open("https://ambush-4567.github.io/Caikwars-Latest/", "_blank");
+}
+
+function logPress()
+{
+    if(stats == false) {
+        stats = true;
+        document.getElementById('logHide').style.display = 'block';
+    } else if(stats == true) {
+        stats = false;
+        document.getElementById('logHide').style.display = 'none';
+    }
+}
+
+function tentGet()
+{
+    if(gS.woodCount >= (2 * userNum) && gS.skinCount >= (2 * userNum)) {
+        gS.tents += userNum; gS.popMax += userNum;
+        gS.skinCount -= userNum * 2; gS.woodCount -= userNum * 2;
+        allChecks(); }
+}
+function tent1()
+{  userNum = 1; tentGet(); }
+function tent10()
+{  userNum = 10; tentGet(); }
+function tent100()
+{  userNum = 100; tentGet(); }
+function tent1k()
+{  userNum = 1000; tentGet(); }
+
+function wHutGet()
+{
+    if(gS.woodCount >= (20 * userNum) && gS.skinCount >= userNum) {
+        gS.wHuts += userNum; gS.popMax += userNum * 3;
+        gS.skinCount -= userNum; gS.woodCount -= userNum * 20;
+        bCheck(); allChecks(); }
+}
+function wHut1()
+{  userNum = 1; wHutGet(); }
+function wHut10()
+{  userNum = 10; wHutGet(); }
+function wHut100()
+{  userNum = 100; wHutGet(); }
+function wHut1k()
+{  userNum = 1000; wHutGet(); }
+
+function bCheck()
+{
+    document.getElementById('tentNum').innerHTML = gS.tents;
+    document.getElementById('wHutNum').innerHTML = gS.wHuts;
+}
+
+
+
+
+
