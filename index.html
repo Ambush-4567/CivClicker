@@ -10,130 +10,235 @@
     <body onload="startUp()">
         <h1 id="header">Welcome To Shitty Civclicker V 1.2</h1>
         <p>Press on wood, food and stone buttons to gather resources. Get upgrades and improve your abilities, to eventually buy the trophy and win the game. Now with actual purchaseable workers lol.</p>
-    <div>
+    <div id="leftbox">
         <input type="button" id="butt1" value="Wood" onclick="woodGet()" style="border-radius: 30px; width: 100px; border: 3px solid rgb(205,133,63)">
-        <span class="bigreg">&nbsp;+<span id="wRatio">0</span></span><span class="bigreg">/s</span><br>
-        <span id="para1">0</span>/<span id="update">200</span><br>
+        <span class="bigreg">&nbsp;<b id="minus">+</b><span id="wRatio">0</span></span><span class="bigreg">/s</span><br>
+        <span id="para1">0</span>/<span id="update1">200</span><br>
+
         <br><input type="button" id="butt2" value="Food" onclick="foodGet()" style="border-radius: 30px; width: 100px; border: 3px solid rgb(0,128,0)">
-        <span class="bigreg" id="plus">&nbsp;+<span id="fRatio">0</span></span><span class="bigreg">/s</span><br>
-        <span id="para2">0</span><span id="update2">/200</span><br>
+        <span class="bigreg">&nbsp;<b id="minus2">+</b><span id="fRatio">0</span></span><span class="bigreg">/s</span><br>
+        <span id="para2">0</span>/<span id="update2">200</span><br>
+
         <br><input type="button" id="butt3" value="Stone" onclick="stoneGet()" style="border-radius: 30px; width: 100px; border: 3px solid rgb(192,192,192)">
-        <span class="bigreg">&nbsp;+<span id="sRatio">0</span></span><span class="bigreg">/s</span><br>
-        <span id="para3">0</span><span id="update3">/200</span><br>
-        <div>
-        <span id="large">Apple count:&nbsp;<span id="appletxt">0&nbsp;&nbsp;</span><span id="gappletxt">&nbsp;Golden apple count:&nbsp;</span><span id="gappletxt2">0</span></span>
-        </div>
+        <span class="bigreg">&nbsp;<b id="minus3">+</b><span id="sRatio">0</span></span><span class="bigreg">/s</span><br>
+        <span id="para3">0</span>/<span id="update3">200</span><br>
     </div>
+    <div id="rightbox">
+        <p>Skins:&nbsp;<span id="skins">0</span></p>
+        <p>Herbs:&nbsp;<span id="herbs">0</span></p>
+        <p>Ore:&nbsp;<span id="ore">0</span></p>
+        <p>Gold:&nbsp;<span id="gold">0</span></p>
+    </div>
+    <div id="furthestbox">
+        <p>Leather:&nbsp;<span id="leather">0</span></p>
+        <p>Piety:&nbsp;<span id="piety">0</span></p>
+        <p>Metal:&nbsp;<span id="metal">0</span></p>
+        <p>Corpses:&nbsp;<span id="corpses">0</span></p>
+    </div>
+    <div id="farbox">
+        <p>Population:&nbsp;<span id="people">0</span></p>
+        <p>Happiness:&nbsp;<span id="happy">3</span></p>
+        <p>Apple count:&nbsp;<span id="appletxt">0</span></p>
+        <div id="gapHid">
+        <p>Golden apple count:&nbsp;<span id="gappletxt">0</span></p>
+        </div>
+        </div><br>
+    <section class="exPadded">
     <input type="button" id="bar1" value="Upgrades" onclick="sect1()">
     <input type="button" id="bar2" value="Automation" onclick="sect2()">
     <input type="button" id="bar3" value="Buildings" onclick="sect3()">
     <input type="button" id="bar4" value="Settings" onclick="sect4()">
+    </section>
     <!--Block for "Upgrades" section-->
             <div id="box1">
-            <p id="header1">Upgrades are permanent transactions, providing a buff until reset. Hover over each to see cost and description.</p>
-            <span id="wrap1">
-            <input type="button" id="butt4" value="Efficient Chainsaws" onclick="woodUp()" style="width: 140px; border: 3px solid rgb(70,130,180)">
-            <span id="para4">Costs 100 wood- gathering wood yields 3 resorces per click.</span><br>
-            </span>
-        <span id="wrap2">
-        <input type="button" id="butt5" value="Wood Max" onclick="woodMax()" style="width: 140px; border: 3px solid rgb(70,130,180)">
-        <span id="para5">Costs 200 wood- wood max increased by 200</span><br>
-        </span>
-        <span id="wrap3">
-        <input type="button" id="butt6" value="Food Max" onclick="foodMax()" style="width: 140px; border: 3px solid rgb(70,130,180)">
-        <span id="para6">Costs 200 food- food max increased by 200</span><br>
-        </span>
-        <span id="wrap4">
-        <input type="button" id="butt7" value="Stone Max" onclick="stoneMax()" style="width: 140px; border: 3px solid rgb(70,130,180)">
-        <span id="para7">Costs 200 stone- stone max increased by 200</span><br>
-        </span>
-        <span id="wrap5">
-        <input type="button" id="butt8" value="Motivated Workers" onclick="foodStoneUp()" style="width: 140px; border: 3px solid rgb(70,130,180)">
-        <span id="para8">Costs 100 wood, 50 food and stone- gathering food and stone yields 3 resorces per click</span><br>
-        </span>
-        <span id="wrap6">
-        <input type="button" id="butt9" value="Golden Apples" onclick="gapUnlock()" style="width: 140px; border: 3px solid rgb(70,130,180)">
-        <span id="para9">Costs 200 of every resource- unlock golden apples, a rare currency</span><br>
-        </span>
-        <span id="wrap7">
-        <input type="button" id="butt10" value="Trophy!" onclick="winTrophy()" style="width: 140px; border: 3px solid rgb(70,130,180)">
-        <span id="para10">Costs 400 of each resource, 25 apples and 3 gapples- win the game!</span><br>
-        </span>
+            <p class="header" id="head">Upgrades are permanent transactions, providing a buff until reset. Hover over each to see cost and description.</p>
+            <div class="inner1">
+            <div id="wrap1">
+            <input type="button" id="butt4" class="button" value="Efficient Chainsaws" onclick="woodUp()">
+            <span class="paragraph">Costs 100 wood- gathering wood yields 3 resorces per click.</span>
+            </div>
+        <div id="wrap2">
+        <input type="button" id="butt5" class="button" value="Wood Max" onclick="woodMax()">
+        <span class="paragraph">Costs 200 wood- wood max increased by 200</span><br>
+        </div>
+        <div id="wrap3">
+        <input type="button" id="butt6" class="button" value="Food Max" onclick="foodMax()">
+        <span class="paragraph">Costs 200 food- food max increased by 200</span><br>
+        </div>
+        <div id="wrap4">
+        <input type="button" id="butt7" class="button" value="Stone Max" onclick="stoneMax()">
+        <span class="paragraph">Costs 200 stone- stone max increased by 200</span><br>
+        </div>
+        <div id="wrap5">
+        <input type="button" id="butt8" class="button" value="Motivated Workers" onclick="foodStoneUp()">
+        <span class="paragraph">Costs 100 wood, 50 food and stone- gathering food and stone yields 3 resorces per click</span><br>
+        </div>
+        <div id="wrap6">
+        <input type="button" id="butt9" class="button" value="Golden Apples" onclick="gapUnlock()">
+        <span class="paragraph">Costs 200 of every resource- unlock golden apples, a rare currency</span><br>
+        </div>
+        <div id="wrap7">
+        <input type="button" id="butt10" class="button" value="Masonry" onclick="masonClk()">
+        <span class="paragraph">Costs 400 of each resource, 25 apples and 3 gapples- Unlock even more upgrades!</span><br>
+        </div>
+        </div>
+        <div id="inner2">
+        <div id="wrap8">
+        <input type="button" id="butt11" class="button" value="Sharp Sickles" onclick="sicklesUp()">
+        <span class="paragraph">Costs 400 food, 20 apples- Farmers collect double the resources!</span><br>
+        </div>
+        <div id="wrap9">
+        <input type="button" id="butt12" class="button" value="Skinning" onclick="skinGet()">
+        <span class="paragraph">Costs 20 skins- Farmers can collect skins automatically</span><br>
+        </div>
+        <div id="wrap10">
+        <input type="button" id="butt13" class="button" value="Harvesting" onclick="herbGet()">
+        <span class="paragraph">Costs 20 herbs- Woodcutters can collect herbs automatically</span><br>
+        </div>
+        <div id="wrap11">
+        <input type="button" id="butt14" class="button" value="Prospecting" onclick="oreGet()">
+        <span class="paragraph">Costs 20 ore- Miners can collect ore automatically</span><br>
+        </div>
+        <div id="wrap12">
+        <input type="button" id="butt15" class="button" value="Domestication" onclick="DomesticUp()">
+        <span class="paragraph">Costs 1,000 of each resource- Increases farmer output greatly</span><br>
+        </div>
+        <div id="wrap13">
+        <input type="button" id="butt16" class="button" value="Granaries" onclick="granUp()">
+        <span class="paragraph">Costs 1,000 wood and stone- Barns store double the food</span><br>
+        </div>
+        <div id="wrap14">
+        <input type="button" id="butt17" class="button" value="The Wheel" onclick="millsOn()">
+        <span class="paragraph">Costs 500 wood and stone- Build mills in buildings section</section></span><br>
+        </div>
+        <div id="wrap15">
+        <input type="button" id="butt18" class="button" value="Construction" onclick="constructClk()">
+        <span class="paragraph">Costs 20 apples, 20 leather, 20 metal- Unlock further more upgrades!</section></span><br>
+        </div>
+        </div>
         </div>
         <!--Block for "Automation" section-->
         <div id="box2">
-            <p id="header2">Buy workers with food, and set them to jobs to automatically gain resources. FYI, each person eats 1 food per second.</p>
-            <div id="wrap">
-            <input type="button" id="buttPop" onclick="addPop()" value="Create Workers" style="width: 140px; border: 3px solid rgb(81, 193, 6)">
-            <input type="button" id="popAdd10" onclick="popAdd10()" value="+10" style="border: 3px solid rgb(81, 193, 6)">
-            <input type="button" id="popAdd100" onclick="popAdd100()" value="+100" style="border: 3px solid rgb(81, 193, 6)">
-            <input type="button" id="popAdd100" onclick="popAddMax()" value="Max" style="border: 3px solid rgb(81, 193, 6)">
+            <p class="header">Buy workers with food, and set them to jobs to automatically gain resources. FYI, each person eats 1 food per second.</p>
+            <div class="padded">
+            <input type="button" id="buttPop" class="button2" onclick="addPop()" value="Create Workers">
+            <input type="button" id="popAdd10" class="button2 auto" onclick="popAdd10()" value="+10">
+            <input type="button" id="popAdd100" class="button2 auto" onclick="popAdd100()" value="+100">
+            <input type="button" id="popAdd100" class="button2 auto" onclick="popAddMax()" value="Max">
+            <span class="slanted">The current cost of workers is&nbsp;<span id="update4">20</span>&nbsp;each.</span>
             </div>
-            <p id="paragraph1">Total Population:&nbsp;<span id="count">0</span></p>
-            <p id="paragraph2">Idle citizens available:&nbsp;<span id="count1">0</span></p>
-            <div id="wrap">
-            <input type="button" id="woodNegMax" onclick="woodNegMax()" value="-Max" style="border: 3px solid rgb(185, 33, 13)">
-            <input type="button" id="woodNeg100" onclick="woodNeg100()" value="-100" style="border: 3px solid rgb(185, 33, 13)">
-            <input type="button" id="woodNeg10" onclick="woodNeg10()" value="-10" style="border: 3px solid rgb(185, 33, 13)">
-            <input type="button" id="woodNeg1" onclick="woodNeg1()" value="-1" style="border: 3px solid rgb(185, 33, 13)">
-            <input id="butt11" type="button" value="Woodcutters" onclick="autoWood()" style="width: 140px; border: 3px solid rgb(81, 193, 6)">
-            <input id="butt12" type="button" value="+10" onclick="autoW10()" style="border: 3px solid rgb(81, 193, 6)">
-            <input id="butt13" type="button" value="+100" onclick="autoW100()" style="border: 3px solid rgb(81, 193, 6)">
-            <input id="butt14" type="button" value="+Max" onclick="autoWMax()" style="border: 3px solid rgb(81, 193, 6)"><br>
-            <p id="paragraph3">Woodcutters Assigned:&nbsp;<span id="count2">0</span></p>
+            <p class="Bparagraph">Total Population:&nbsp;<span id="count">0</span>/<span id="popMax">0</span></p>
+            <p class="Bparagraph">Idle citizens available:&nbsp;<span id="count1">0</span></p>
+            <div class="padded">
+            <input type="button" id="woodNegMax" class="button3 auto" onclick="woodNegMax()" value="-Max">
+            <input type="button" id="woodNeg100" class="button3 auto" onclick="woodNeg100()" value="-100">
+            <input type="button" id="woodNeg10" class="button3 auto" onclick="woodNeg10()" value="-10">
+            <input type="button" id="woodNeg1" class="button3 auto" onclick="woodNeg1()" value="-1">
+            <input id="butt11" type="button" class="button2" value="Woodcutters" onclick="autoWood()">
+            <input id="butt12" type="button" class="button2 auto" value="+10" onclick="autoW10()">
+            <input id="butt13" type="button" class="button2 auto" value="+100" onclick="autoW100()">
+            <input id="butt14" type="button" class="button2 auto" value="+Max" onclick="autoWMax()">
+            <span class="Bparagraph">Woodcutters Assigned:&nbsp;<span id="count2">0</span></span>
             </div>
-            <div id="wrap">
-            <input type="button" id="foodNegMax" onclick="foodNegMax()" value="-Max" style="border: 3px solid rgb(185, 33, 13)">
-            <input type="button" id="foodNeg100" onclick="foodNeg100()" value="-100" style="border: 3px solid rgb(185, 33, 13)">
-            <input type="button" id="foodNeg10" onclick="foodNeg10()" value="-10" style="border: 3px solid rgb(185, 33, 13)">
-            <input type="button" id="foodNeg1" onclick="foodNeg1()" value="-1" style="border: 3px solid rgb(185, 33, 13)">
-            <input id="butt11" type="button" value="Farmers" onclick="autoFood()" style="width: 140px; border: 3px solid rgb(81, 193, 6)">
-            <input id="butt12" type="button" value="+10" onclick="autoF10()" style="border: 3px solid rgb(81, 193, 6)">
-            <input id="butt13" type="button" value="+100" onclick="autoF100()" style="border: 3px solid rgb(81, 193, 6)">
-            <input id="butt14" type="button" value="+Max" onclick="autoFMax()" style="border: 3px solid rgb(81, 193, 6)">
-            <p id="paragraph4">Farmers Assigned:&nbsp;<span id="count3">0</span></p>
+            <div class="padded">
+            <input type="button" id="foodNegMax" class="button3 auto" onclick="foodNegMax()" value="-Max">
+            <input type="button" id="foodNeg100" class="button3 auto" onclick="foodNeg100()" value="-100">
+            <input type="button" id="foodNeg10" class="button3 auto" onclick="foodNeg10()" value="-10">
+            <input type="button" id="foodNeg1" class="button3 auto" onclick="foodNeg1()" value="-1">
+            <input id="butt11" type="button" class="button2" value="Farmers" onclick="autoFood()">
+            <input id="butt12" type="button" class="button2 auto" value="+10" onclick="autoF10()">
+            <input id="butt13" type="button" class="button2 auto" value="+100" onclick="autoF100()">
+            <input id="butt14" type="button" class="button2 auto" value="+Max" onclick="autoFMax()">
+            <span class="Bparagraph">Farmers Assigned:&nbsp;<span id="count3">0</span></span>
             </div>
-            <div id="wrap">
-            <input type="button" id="stoneNegMax" onclick="stoneNegMax()" value="-Max" style="border: 3px solid rgb(185, 33, 13)">
-            <input type="button" id="stoneNeg100" onclick="stoneNeg100()" value="-100" style="border: 3px solid rgb(185, 33, 13)">
-            <input type="button" id="stoneNeg10" onclick="stoneNeg10()" value="-10" style="border: 3px solid rgb(185, 33, 13)">
-            <input type="button" id="stoneNeg1" onclick="stoneNeg1()" value="-1" style="border: 3px solid rgb(185, 33, 13)">
-            <input id="butt11" type="button" value="Farmers" onclick="autoStone()" style="width: 140px; border: 3px solid rgb(81, 193, 6)">
-            <input id="butt12" type="button" value="+10" onclick="autoS10()" style="border: 3px solid rgb(81, 193, 6)">
-            <input id="butt13" type="button" value="+100" onclick="autoS100()" style="border: 3px solid rgb(81, 193, 6)">
-            <input id="butt14" type="button" value="+Max" onclick="autoSMax()" style="border: 3px solid rgb(81, 193, 6)"><br>
-            <p id="paragraph5">Miners Assigned:&nbsp;<span id="count4">0</span></p>
+            <div class="padded">
+            <input type="button" id="stoneNegMax" class="button3 auto" onclick="stoneNegMax()" value="-Max">
+            <input type="button" id="stoneNeg100" class="button3 auto" onclick="stoneNeg100()" value="-100">
+            <input type="button" id="stoneNeg10" class="button3 auto" onclick="stoneNeg10()" value="-10">
+            <input type="button" id="stoneNeg1" class="button3 auto" onclick="stoneNeg1()" value="-1">
+            <input id="butt11" type="button" class="button2" value="Miners" onclick="autoStone()">
+            <input id="butt12" type="button" class="button2 auto" value="+10" onclick="autoS10()">
+            <input id="butt13" type="button" class="button2 auto" value="+100" onclick="autoS100()">
+            <input id="butt14" type="button" class="button2 auto" value="+Max" onclick="autoSMax()">
+            <span class="Bparagraph">Miners Assigned:&nbsp;<span id="count4">0</span></span>
+            </div>
+            <div class="padded">
+            <input type="button" id="stoneNegMax" class="button3 auto" onclick="metalNegMax()" value="-Max">
+            <input type="button" id="stoneNeg100" class="button3 auto" onclick="metalNeg100()" value="-100">
+            <input type="button" id="stoneNeg10" class="button3 auto" onclick="metalNeg10()" value="-10">
+            <input type="button" id="stoneNeg1" class="button3 auto" onclick="metalNeg1()" value="-1">
+            <input id="butt11" type="button" class="button2" value="Blacksmiths" onclick="autoMetal()">
+            <input id="butt12" type="button" class="button2 auto" value="+10" onclick="autoM10()">
+            <input id="butt13" type="button" class="button2 auto" value="+100" onclick="autoM100()">
+            <input id="butt14" type="button" class="button2 auto" value="+Max" onclick="autoMMax()">
+            <span class="Bparagraph">Blacksmiths Assigned:&nbsp;<span id="count5">0</span></span>
+            </div>
+            <div class="padded">
+            <input type="button" id="stoneNegMax" class="button3 auto" onclick="leatherNegMax()" value="-Max">
+            <input type="button" id="stoneNeg100" class="button3 auto" onclick="leatherNeg100()" value="-100">
+            <input type="button" id="stoneNeg10" class="button3 auto" onclick="leatherNeg10()" value="-10">
+            <input type="button" id="stoneNeg1" class="button3 auto" onclick="leatherNeg1()" value="-1">
+            <input id="butt11" type="button" class="button2" value="Tanners" onclick="autoLeather()">
+            <input id="butt12" type="button" class="button2 auto" value="+10" onclick="autoL10()">
+            <input id="butt13" type="button" class="button2 auto" value="+100" onclick="autoL100()">
+            <input id="butt14" type="button" class="button2 auto" value="+Max" onclick="autoLMax()">
+            <span class="Bparagraph">Tanners Assigned:&nbsp;<span id="count6">0</span></span>
             </div>
             
         </div>
         <!--Block for "Buildings" section-->
         <div id="box3">
-            <p>yep</p>
-            <input type="button" value="Wooden Huts" id="butt200" onclick="hut1()"><br>
-            <input type="button" value="Tents" id="butt200" onclick="tent1()"><br>
-            <input type="button" value="Houses" id="butt200" onclick="house1()"><br>
-            <input type="button" value="Mansions" id="butt200" onclick="mansion1()"><br>
-            <input type="button" value="Barns" id="butt200" onclick="barn1()"><br>
-            <input type="button" value="Wood Storage" id="butt200" onclick="woodStock1()"><br>
-            <input type="button" value="Stone Stockpiles" id="butt200" onclick="stoneStock1()"><br>
-            <input type="button" value="Graveyards" id="butt200" onclick="graves1()">
+            <p class="header" id="yerp">Buildings will offer higher population limits, higher storage limits and more. Keep in mind: These take up precious space, a limited resource.</p>
+            <p class="Bparagraph">Free Land:&nbsp;<span class="bord"><span id="landUsed">0</span>/<span id="landSpace">1000</span></span></p>
+            <span id="tentNum">0</span>
+            <input type="button" value="Tents" class="button" onclick="tent1()">
+            <span class="slanted">Costs 2 wood, 2 skins- obtain +1 population</span><br>
+            <input type="button" value="Wooden Huts" class="button" onclick="hut1()">
+            <span class="slanted">Costs 20 wood, 1 skin- obtain +3 population</span><br>
+            <input type="button" value="Cottages" class="button" onclick="cottage1()">
+            <span class="slanted">Costs 10 wood, 30 stone- obtain +6 population</span><br>
+            <input type="button" value="Houses" class="button" onclick="house1()">
+            <span class="slanted">Costs 30 wood, 70 stone- obtain +10 population</span><br>
+            <input type="button" value="Mansions" class="button" onclick="mansion1()">
+            <span class="slanted">Costs 200 wood, 200 stone and 20 leather- obtain +50 population</span><br>
+            <input type="button" value="Barns" class="button" onclick="barn1()">
+            <span class="slanted">Costs 100 wood- obtain +200 food storage</span><br>
+            <input type="button" value="Wood Storage" class="button" onclick="woodStock1()">
+            <span class="slanted">Costs 100 wood- obtain +200 wood storage</span><br>
+            <input type="button" value="Stone Stockpiles" class="button" onclick="stoneStock1()">
+            <span class="slanted">Costs 100 wood- obtain +200 stone storage</span><br>
+            <input type="button" value="Graveyards" class="button" onclick="graves1()">
+            <span class="slanted">Costs 50 wood, 200 stone, 50 herbs- obtain +100 graves</span><br>
+            <div id="millDiv">
+                <input type="button" value="Mills" class="button4" onclick="mills1()">
+                <span class="slanted">Costs&nbsp;<span id="millWood">100</span>&nbsp;wood and&nbsp;<span id="millWood">100</span>&nbsp;stone- Increases Farmer Efficiency</span><br>
+                </div>
         </div>
         <!--Block for "Settings" section-->
         <div id="box4">
-            <p id="header3">Self explanatory. I've put a link to another project of mine, Caikwars, in case you check it out.</p>
-            <span id="wrap8">
-            <input type="button" id="butt11" value="Scrap Resources" onclick="resDump()" style="width: 140px; border: 3px solid rgb(70,130,180)">
-            <span id="para11">Destroy all current resources. Try not to get softlocked again bozo.</span><br>
-            </span>
-            <span id="wrap9">
-            <input type="button" id="butt12" value="Clear Data" onclick="storgClear()" style="width: 140px; border: 3px solid rgb(179, 45, 21); margin-top: 10px;">
-            <span id="para12">Clears all localStorage content. Think before you do!</span><br>
-            </span>
-            <span id="wrap10">
-            <input type="button" id="butt13" value="Export" onclick="exportSave()" style="width: 140px; border: 3px solid rgb(179, 45, 21); margin-top: 10px;">
-            <span id="para13">Export your save to a file, and import progress across devices.</span><br>
-            <input type="file" id="importFile" accept=".json" style="width: 150px; border: 3px solid rgb(179, 45, 21); margin-top: 10px;">
-            </span>
+            <p class="header">Self explanatory. I've put a link to another project of mine, Caikwars, in case you check it out.</p>
+            <input type="button" id="butt11" class="button3" value="Scrap Resources" onclick="resDump()">
+            <span class="paragraph">Destroy all current resources. Try not to get softlocked again bozo.</span><br>
+          
+            <input type="button" id="butt12" class="button3" value="Clear Data" onclick="storgClear()">
+            <span class="paragraph">Clears all localStorage content. Think before you do!</span><br>
+
+            <input type="button" id="butt13" class="button3" value="Export" onclick="exportSave()">
+            <span class="paragraph">Export your save to a file, and import progress across devices.</span><br>
+
+            <input type="file" id="importFile" accept=".json" class="button3" style="width: 175px;">
+            <span class="paragraph">Import data through a file. Only accepts .json.</span><br>
+
+            <input type="button" class="button3" value="Update log" onclick="logPress()">
+            <span class="paragraph">Click to reveal all game stats, and click again to hide.</span><br>
+            <div id="logHide">
+                <p>1.3- Huge update including buildings, tons more resources and cleaned up gameplay.</p>
+                <p>1.2- Big update with population, workers and formatting done. 16/06/24</p>
+                <p>1.1- Same, but introduced localStorage for saving features. 30/05/24</p>
+                <p>1.0- Bare bones version, barely any features. Apples, Gapples, a few upgrades. 27/05/24</p>
+            </div>
+
+            <input type="button" class="button" value="Caikwars" onclick="caikPlug()" style="margin-top: 10px;">
             </div>
     
     </body>
