@@ -2,7 +2,7 @@ let gS = {
     woodCount: 0, foodCount: 0, stoneCount: 0, metalCount: 0, leatherCount: 0, oreCount: 0, skinCount: 0, herbCount: 0,
     b4: false, b5: false, b6: false, b7: false, b8: false, b9: false, b10: false, b11: false, b12: false, b13: false,
     b14: false, b15: false, b16: false, b17: false, b18: false, b19: false, b20: false,
-    wProduce: 100, fProduce: 100, sProduce: 100,
+    wProduce: 1, fProduce: 1, sProduce: 1,
     woodCutters: 0, farmers: 0, miners: 0, blacksmiths: 0, tanners: 0,
     woodCapAm: 200, foodCapAm: 200, stoneCapAm: 200,
     apples: 20, gapples: 0,
@@ -296,9 +296,9 @@ function storgClear()
         gS.b18 = false;
         gS.b19 = false;
         gS.b20 = false;
-        gS.wProduce = 100;
-        gS.fProduce = 100;
-        gS.sProduce = 100;
+        gS.wProduce = 1;
+        gS.fProduce = 1;
+        gS.sProduce = 1;
         gS.woodCutters = 0;
         gS.farmers = 0;
         gS.miners = 0;
