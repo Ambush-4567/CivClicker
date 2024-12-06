@@ -5,11 +5,11 @@
         <meta-name="viewport" content="width=devices-width, initial-scale=1.0">
         <title>butone</title>
         <link rel="stylesheet" href="style.css">
-        <script src="script.js"></script>
-    </head>
+        
+</head>
     <body onload="startUp()">
-        <h1 id="header">Welcome To Shitty Civclicker V 1.2</h1>
-        <p>Press on wood, food and stone buttons to gather resources. Get upgrades and improve your abilities, to eventually buy the trophy and win the game. Now with actual purchaseable workers lol.</p>
+        <h1 id="header">Welcome To Shitty Civclicker V 1.3</h1>
+        <p>Press on wood, food and stone buttons to gather resources. Get upgrades and improve your abilities, to make big number go bigger. Now with real estate!</p>
     <div id="leftbox">
         <input type="button" id="butt1" value="Wood" onclick="woodGet()" style="border-radius: 30px; width: 100px; border: 3px solid rgb(205,133,63)">
         <span class="bigreg">&nbsp;<b id="minus">+</b><span id="wRatio">0</span></span><span class="bigreg">/s</span><br>
@@ -193,23 +193,32 @@
             <span id="tentNum">0</span>
             <input type="button" value="Tents" class="button" onclick="tent1()">
             <span class="slanted">Costs 2 wood, 2 skins- obtain +1 population</span><br>
-            <input type="button" value="Wooden Huts" class="button" onclick="hut1()">
+            <span id="wHutNum">0</span>
+            <input type="button" value="Wooden Huts" class="button" onclick="wHut1()">
             <span class="slanted">Costs 20 wood, 1 skin- obtain +3 population</span><br>
+            <span id="cottageNum">0</span>
             <input type="button" value="Cottages" class="button" onclick="cottage1()">
             <span class="slanted">Costs 10 wood, 30 stone- obtain +6 population</span><br>
+            <span id="houseNum">0</span>
             <input type="button" value="Houses" class="button" onclick="house1()">
             <span class="slanted">Costs 30 wood, 70 stone- obtain +10 population</span><br>
+            <span id="mansionsNum">0</span>
             <input type="button" value="Mansions" class="button" onclick="mansion1()">
             <span class="slanted">Costs 200 wood, 200 stone and 20 leather- obtain +50 population</span><br>
+            <span id="barnNum">0</span>
             <input type="button" value="Barns" class="button" onclick="barn1()">
             <span class="slanted">Costs 100 wood- obtain +200 food storage</span><br>
-            <input type="button" value="Wood Storage" class="button" onclick="woodStock1()">
+            <span id="woodSNum">0</span>
+            <input type="button" value="Wood Storage" class="button" onclick="woodS1()">
             <span class="slanted">Costs 100 wood- obtain +200 wood storage</span><br>
-            <input type="button" value="Stone Stockpiles" class="button" onclick="stoneStock1()">
+            <span id="stoneSNum">0</span>
+            <input type="button" value="Stone Stockpiles" class="button" onclick="stoneS1()">
             <span class="slanted">Costs 100 wood- obtain +200 stone storage</span><br>
+            <span id="graveNum">0</span>
             <input type="button" value="Graveyards" class="button" onclick="graves1()">
             <span class="slanted">Costs 50 wood, 200 stone, 50 herbs- obtain +100 graves</span><br>
             <div id="millDiv">
+                <span id="millNum">0</span>
                 <input type="button" value="Mills" class="button4" onclick="mills1()">
                 <span class="slanted">Costs&nbsp;<span id="millWood">100</span>&nbsp;wood and&nbsp;<span id="millWood">100</span>&nbsp;stone- Increases Farmer Efficiency</span><br>
                 </div>
@@ -232,7 +241,7 @@
             <input type="button" class="button3" value="Update log" onclick="logPress()">
             <span class="paragraph">Click to reveal all game stats, and click again to hide.</span><br>
             <div id="logHide">
-                <p>1.3- Huge update including buildings, tons more resources and cleaned up gameplay.</p>
+                <p>1.3- Huge update including buildings, tons more resources and cleaned up gameplay. 6/12/24</p>
                 <p>1.2- Big update with population, workers and formatting done. 16/06/24</p>
                 <p>1.1- Same, but introduced localStorage for saving features. 30/05/24</p>
                 <p>1.0- Bare bones version, barely any features. Apples, Gapples, a few upgrades. 27/05/24</p>
@@ -240,6 +249,6 @@
 
             <input type="button" class="button" value="Caikwars" onclick="caikPlug()" style="margin-top: 10px;">
             </div>
-    
+            <script src="script.js"></script>
     </body>
 </html>
