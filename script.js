@@ -5,13 +5,14 @@ let gS = {
     wProduce: 1, fProduce: 1, sProduce: 1,
     woodCutters: 0, farmers: 0, miners: 0, blacksmiths: 0, tanners: 0,
     woodCapAm: 200, foodCapAm: 200, stoneCapAm: 200,
-    apples: 20, gapples: 0,
+    apples: 0, gapples: 0,
     totalPop: 0, idleCitizens: 0, popMax: 10,
     farmRate: 1.4, woodRate: 0.5, mineRate: 0.25, oreRate: 0, skinRate: 0, metalRate: 0.5, leatherRate: 0.5,
     starving: false,
     foodRatio: 0, woodRatio: 0, stoneRatio: 0, oreRatio: 0, skinsRatio: 0, metalRatio: 0, leatherRatio: 0,
     barnStrg: 200, houseStrg: 10,
     tents: 0, wHuts: 0, cottages: 0, houses: 0, mansions: 0, barns: 0, woodStorage: 0, stoneStockpiles: 0, mills: 0, graveyards: 0,
+    landUsed: 0, landCap: 1000,
 };
 //block for global variables, uneccesary to put in localStorage.
 let userNum = 0;
@@ -40,7 +41,7 @@ function startUp()
     let timer2 = setInterval(resourceGet, 1000); 
     document.getElementById('logHide').style.display = 'none';
     importData(); sect1(); 
-    butDisable(); allChecks(); goldCheck(); masCheck(); constCheck();
+    butDisable(); allChecks(); goldCheck(); masCheck(); constCheck(); 
 }
 
 function resourceGet()
@@ -60,6 +61,10 @@ function resourceGet()
 
     if(gS.stoneCount < gS.stoneCapAm) {
         gS.stoneCount += gS.mineRate * gS.miners;
+    }
+// tanners make 0.5 leather per worker.
+    if(gS.tanners >= 1) {
+        gS.leatherCount += gS.leatherRate * gS.tanners;
     }
 
 //block for starving
@@ -304,11 +309,11 @@ function storgClear()
         gS.miners = 0;
         gS.blacksmiths = 0;
         gS.tanners = 0;
-        gS.woodCapAm = 1000;
-        gS.foodCapAm = 1000;
-        gS.stoneCapAm = 1000;
-        gS.apples = 25;
-        gS.gapples = 25;
+        gS.woodCapAm = 200;
+        gS.foodCapAm = 200;
+        gS.stoneCapAm = 200;
+        gS.apples = 0;
+        gS.gapples = 0;
         gS.totalPop = 0;
         gS.idleCitizens = 0; 
         gS.popMax = 10;
@@ -329,16 +334,18 @@ function storgClear()
         gS.stoneStockpiles = 0;
         gS.mills = 0;
         gS.graveyards = 0;
+        gS.landUsed = 0;
+        gS.landCap = 1000;
         location.reload();
       } 
 }
 
 function appCheck()
 {
-    if (Math.ceil(Math.random() * 100) >= 1) {
+    if (Math.ceil(Math.random() * 10) == 1) {
         gS.apples += 1; document.getElementById('appletxt').innerHTML = gS.apples; }
 
-      if (Math.ceil(Math.random() * 1000) >= 9 && gS.b9 == true) {
+      if (Math.ceil(Math.random() * 100) == 1 && gS.b9 == true) {
         gS.gapples += 1; document.getElementById('gappletxt').innerHTML = gS.gapples; }
 }
 
@@ -405,8 +412,20 @@ function allChecks()
     document.getElementById('skins').innerHTML = gS.skinCount;
     document.getElementById('ore').innerHTML = gS.oreCount;
     document.getElementById('herbs').innerHTML = gS.herbCount;
+    document.getElementById('leather').innerHTML = gS.leatherCount;
     document.getElementById('people').innerHTML = gS.totalPop;
     document.getElementById('popMax').innerHTML = gS.popMax;
+    document.getElementById('tentNum').innerHTML = gS.tents;
+    document.getElementById('wHutNum').innerHTML = gS.wHuts;
+    document.getElementById('cottageNum').innerHTML = gS.cottages;
+    document.getElementById('houseNum').innerHTML = gS.houses;
+    document.getElementById('mansionsNum').innerHTML = gS.mansions;
+    document.getElementById('barnNum').innerHTML = gS.barns;
+    document.getElementById('woodSNum').innerHTML = gS.woodStorage;
+    document.getElementById('stoneSNum').innerHTML = gS.stoneStockpiles;
+    document.getElementById('graveNum').innerHTML = gS.graveyards;
+    document.getElementById('millNum').innerHTML = gS.mills;
+    document.getElementById('landUsed').innerHTML = gS.landUsed;
     ratioCheck();
 }
 
@@ -623,7 +642,7 @@ function popAdd100()
 }
 function popAddMax()
 {
-   let spaceLeft = gS.popMax - gS.totalPop
+   let spaceLeft = gS.popMax - gS.totalPop;
    const maxIncrease = Math.floor(gS.foodCount / personCost);
    userNum = maxIncrease;
    if(userNum > spaceLeft) {
@@ -913,43 +932,166 @@ function logPress()
     }
 }
 
+//function for land space calculation
+function landCheck()
+{
+    if (gS.landUsed + userNum <= gS.landCap)  {
+        return true;
+    } else {
+        return false;
+    }
+}
+// actually adds used land to calc
+function landAdd()
+{
+    gS.landUsed += userNum;       
+}
+
 function tentGet()
 {
     if(gS.woodCount >= (2 * userNum) && gS.skinCount >= (2 * userNum)) {
         gS.tents += userNum; gS.popMax += userNum;
         gS.skinCount -= userNum * 2; gS.woodCount -= userNum * 2;
-        allChecks(); }
+        landAdd(); allChecks(); }
 }
 function tent1()
-{  userNum = 1; tentGet(); }
+{  userNum = 1; if(landCheck()){tentGet();}  }
 function tent10()
-{  userNum = 10; tentGet(); }
+{  userNum = 10; if(landCheck()) {tentGet();} }
 function tent100()
-{  userNum = 100; tentGet(); }
+{  userNum = 100; if(landCheck()) {tentGet();} }
 function tent1k()
-{  userNum = 1000; tentGet(); }
+{  userNum = 1000; if(landCheck()) {tentGet();} }
 
 function wHutGet()
 {
     if(gS.woodCount >= (20 * userNum) && gS.skinCount >= userNum) {
         gS.wHuts += userNum; gS.popMax += userNum * 3;
         gS.skinCount -= userNum; gS.woodCount -= userNum * 20;
-        bCheck(); allChecks(); }
+        landAdd(); allChecks(); }
 }
 function wHut1()
-{  userNum = 1; wHutGet(); }
+{  userNum = 1; if(landCheck()){wHutGet();} }
 function wHut10()
-{  userNum = 10; wHutGet(); }
+{  userNum = 10; if(landCheck()){wHutGet();} }
 function wHut100()
-{  userNum = 100; wHutGet(); }
+{  userNum = 100; if(landCheck()){wHutGet();} }
 function wHut1k()
-{  userNum = 1000; wHutGet(); }
+{  userNum = 1000; if(landCheck()){wHutGet();} }
 
-function bCheck()
+function cottageGet()
 {
-    document.getElementById('tentNum').innerHTML = gS.tents;
-    document.getElementById('wHutNum').innerHTML = gS.wHuts;
+    if(gS.woodCount >= (10 * userNum) && gS.stoneCount >= (30 * userNum)) {
+        gS.cottages += userNum; gS.popMax += userNum * 6;
+        gS.stoneCount -= userNum * 30; gS.woodCount -= userNum * 10;
+        landAdd(); allChecks(); }
 }
+function cottage1()
+{  userNum = 1; if(landCheck()){cottageGet();}  }
+function cottage10()
+{  userNum = 10; if(landCheck()) {cottageGet();} }
+function cottage100()
+{  userNum = 100; if(landCheck()) {cottageGet();} }
+function cottage1k()
+{  userNum = 1000; if(landCheck()) {cottageGet();} }
+
+function houseGet()
+{
+    if(gS.woodCount >= (30 * userNum) && gS.stoneCount >= (70 * userNum)) {
+        gS.houses += userNum; gS.popMax += userNum * 10;
+        gS.stoneCount -= userNum * 70; gS.woodCount -= userNum * 30;
+        landAdd(); allChecks(); }
+}
+function house1()
+{  userNum = 1; if(landCheck()){houseGet();}  }
+function house10()
+{  userNum = 10; if(landCheck()) {houseGet();} }
+function house100()
+{  userNum = 100; if(landCheck()) {houseGet();} }
+function house1k()
+{  userNum = 1000; if(landCheck()) {houseGet();} }
+
+function mansionGet()
+{
+    if(gS.woodCount >= (200 * userNum) && gS.stoneCount >= (200 * userNum) && gS.leatherCount >= (20 * userNum)) {
+        gS.mansions += userNum; gS.popMax += userNum * 50;
+        gS.stoneCount -= userNum * 200; gS.woodCount -= userNum * 200; gS.leatherCount -= userNum * 20;
+        landAdd(); allChecks(); }
+}
+function mansion1()
+{  userNum = 1; if(landCheck()){mansionGet();}  }
+function mansion10()
+{  userNum = 10; if(landCheck()) {mansionGet();} }
+function mansion100()
+{  userNum = 100; if(landCheck()) {mansionGet();} }
+function mansion1k()
+{  userNum = 1000; if(landCheck()) {mansionGet();} }
+
+function barnGet()
+{
+    if(gS.woodCount >= (100 * userNum)) {
+        gS.barns += userNum; gS.foodCapAm += (userNum * 100) * 2;
+        gS.woodCount -= userNum * 100;
+        landAdd(); allChecks(); }
+}
+function barn1()
+{  userNum = 1; if(landCheck()){barnGet();}  }
+function barn10()
+{  userNum = 10; if(landCheck()) {barnGet();} }
+function barn100()
+{  userNum = 100; if(landCheck()) {barnGet();} }
+function barn1k()
+{  userNum = 1000; if(landCheck()) {barnGet();} }
+
+function woodSGet()
+{
+    if(gS.woodCount >= (100 * userNum)) {
+        gS.woodStorage += userNum; gS.woodCapAm += (userNum * 100) * 2;
+        gS.woodCount -= userNum * 100;
+        landAdd(); allChecks(); }
+}
+function woodS1()
+{  userNum = 1; if(landCheck()){woodSGet();}  }
+function woodS10()
+{  userNum = 10; if(landCheck()) {woodSGet();} }
+function woodS100()
+{  userNum = 100; if(landCheck()) {woodSGet();} }
+function woodS1k()
+{  userNum = 1000; if(landCheck()) {woodSGet();} }
+
+function stoneSGet()
+{
+    if(gS.woodCount >= (100 * userNum)) {
+        gS.stoneStockpiles += userNum; gS.stoneCapAm += (userNum * 100) * 2;
+        gS.woodCount -= userNum * 100;
+        landAdd(); allChecks(); }
+}
+function stoneS1()
+{  userNum = 1; if(landCheck()){stoneSGet();}  }
+function stoneS10()
+{  userNum = 10; if(landCheck()) {stoneSGet();} }
+function stoneS100()
+{  userNum = 100; if(landCheck()) {stoneSGet();} }
+function stoneS1k()
+{  userNum = 1000; if(landCheck()) {stoneSGet();} }
+
+function graveGet()
+{
+    if(gS.woodCount >= (50 * userNum) && gS.stoneCount >= (200 * userNum) && gS.herbCount >= (50 * userNum)) {
+        gS.graveyards += userNum; 
+        gS.stoneCount -= userNum * 200; gS.woodCount -= userNum * 50; gS.herbCount -= userNum * 50;
+        landAdd(); allChecks(); }
+}
+function graves1()
+{  userNum = 1; if(landCheck()){graveGet();}  }
+function graves10()
+{  userNum = 10; if(landCheck()) {graveGet();} }
+function graves100()
+{  userNum = 100; if(landCheck()) {graveGet();} }
+function graves1k()
+{  userNum = 1000; if(landCheck()) {graveGet();} }
+
+
 
 
 
