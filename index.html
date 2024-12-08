@@ -8,9 +8,9 @@
         
 </head>
     <body onload="startUp()">
-        <h1 id="header">Welcome To Shitty Civclicker V 1.3</h1>
-        <p>Press on wood, food and stone buttons to gather resources. Get upgrades and improve your abilities, to make big number go bigger. Now with real estate!</p>
-    <div id="leftbox">
+        <h1 id="header">Welcome To Shitty Civclicker V 1.4</h1>
+        <p>Press on wood, food and stone buttons to gather resources. Get upgrades and improve your abilities, to make big number go bigger. Now with real estate and extra upgrades!</p>
+    <div id="firstBox">
         <input type="button" id="butt1" value="Wood" onclick="woodGet()" style="border-radius: 30px; width: 100px; border: 3px solid rgb(205,133,63)">
         <span class="bigreg">&nbsp;<b id="minus">+</b><span id="wRatio">0</span></span><span class="bigreg">/s</span><br>
         <span id="para1">0</span>/<span id="update1">200</span><br>
@@ -23,21 +23,21 @@
         <span class="bigreg">&nbsp;<b id="minus3">+</b><span id="sRatio">0</span></span><span class="bigreg">/s</span><br>
         <span id="para3">0</span>/<span id="update3">200</span><br>
     </div>
-    <div id="rightbox">
+    <div id="boxLeft">
         <p>Skins:&nbsp;<span id="skins">0</span></p>
         <p>Herbs:&nbsp;<span id="herbs">0</span></p>
         <p>Ore:&nbsp;<span id="ore">0</span></p>
         <p>Gold:&nbsp;<span id="gold">0</span></p>
     </div>
-    <div id="furthestbox">
+    <div id="boxMid">
         <p>Leather:&nbsp;<span id="leather">0</span></p>
         <p>Piety:&nbsp;<span id="piety">0</span></p>
         <p>Metal:&nbsp;<span id="metal">0</span></p>
         <p>Corpses:&nbsp;<span id="corpses">0</span></p>
     </div>
-    <div id="farbox">
+    <div id="boxRight">
         <p>Population:&nbsp;<span id="people">0</span></p>
-        <p>Happiness:&nbsp;<span id="happy">3</span></p>
+        <p>Happiness:&nbsp;<span id="happy">Moderate</span></p>
         <p>Apple count:&nbsp;<span id="appletxt">0</span></p>
         <div id="gapHid">
         <p>Golden apple count:&nbsp;<span id="gappletxt">0</span></p>
@@ -89,15 +89,15 @@
         </div>
         <div id="wrap9">
         <input type="button" id="butt12" class="button" value="Skinning" onclick="skinGet()">
-        <span class="paragraph">Costs 20 skins- Farmers can collect skins automatically</span><br>
+        <span class="paragraph">Costs 50 skins- Farmers can collect skins automatically</span><br>
         </div>
         <div id="wrap10">
         <input type="button" id="butt13" class="button" value="Harvesting" onclick="herbGet()">
-        <span class="paragraph">Costs 20 herbs- Woodcutters can collect herbs automatically</span><br>
+        <span class="paragraph">Costs 50 herbs- Woodcutters can collect herbs automatically</span><br>
         </div>
         <div id="wrap11">
         <input type="button" id="butt14" class="button" value="Prospecting" onclick="oreGet()">
-        <span class="paragraph">Costs 20 ore- Miners can collect ore automatically</span><br>
+        <span class="paragraph">Costs 50 ore- Miners can collect ore automatically</span><br>
         </div>
         <div id="wrap12">
         <input type="button" id="butt15" class="button" value="Domestication" onclick="DomesticUp()">
@@ -109,11 +109,11 @@
         </div>
         <div id="wrap14">
         <input type="button" id="butt17" class="button" value="The Wheel" onclick="millsOn()">
-        <span class="paragraph">Costs 500 wood and stone- Build mills in buildings section</section></span><br>
+        <span class="paragraph">Costs 1000 wood and 5 gapples- Build mills in buildings section</section></span><br>
         </div>
         <div id="wrap15">
         <input type="button" id="butt18" class="button" value="Construction" onclick="constructClk()">
-        <span class="paragraph">Costs 20 apples, 20 leather, 20 metal- Unlock further more upgrades!</section></span><br>
+        <span class="paragraph">Costs 50 apples, 100 leather, 50 metal- Unlock further more upgrades! (NYA)</section></span><br>
         </div>
         </div>
         </div>
@@ -219,7 +219,7 @@
             <span class="slanted">Costs 50 wood, 200 stone, 50 herbs- obtain +100 graves</span><br>
             <div id="millDiv">
                 <span id="millNum">0</span>
-                <input type="button" value="Mills" class="button4" onclick="mills1()">
+                <input type="button" value="Mills" id="milled" class="button4" onclick="mills1()" disabled>
                 <span class="slanted">Costs&nbsp;<span id="millWood">100</span>&nbsp;wood and&nbsp;<span id="millWood">100</span>&nbsp;stone- Increases Farmer Efficiency</span><br>
                 </div>
         </div>
@@ -241,6 +241,7 @@
             <input type="button" class="button3" value="Update log" onclick="logPress()">
             <span class="paragraph">Click to reveal all game stats, and click again to hide.</span><br>
             <div id="logHide">
+                <p>1.4- Small update encompassing new upgrades, tanner functionality and small formatting. 8/12/24</p>
                 <p>1.3- Huge update including buildings, tons more resources and cleaned up gameplay. 6/12/24</p>
                 <p>1.2- Big update with population, workers and formatting done. 16/06/24</p>
                 <p>1.1- Same, but introduced localStorage for saving features. 30/05/24</p>
