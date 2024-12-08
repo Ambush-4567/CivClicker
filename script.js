@@ -1,11 +1,11 @@
 let gS = {
-    woodCount: 0, foodCount: 0, stoneCount: 0, metalCount: 0, leatherCount: 0, oreCount: 0, skinCount: 0, herbCount: 0,
+    woodCount: 1000, foodCount: 1000, stoneCount: 1000, metalCount: 0, leatherCount: 100, oreCount: 100, skinCount: 100, herbCount: 100,
     b4: false, b5: false, b6: false, b7: false, b8: false, b9: false, b10: false, b11: false, b12: false, b13: false,
     b14: false, b15: false, b16: false, b17: false, b18: false, b19: false, b20: false,
-    wProduce: 1, fProduce: 1, sProduce: 1,
+    wProduce: 100, fProduce: 100, sProduce: 100,
     woodCutters: 0, farmers: 0, miners: 0, blacksmiths: 0, tanners: 0,
-    woodCapAm: 200, foodCapAm: 200, stoneCapAm: 200,
-    apples: 0, gapples: 0,
+    woodCapAm: 1000, foodCapAm: 1000, stoneCapAm: 1000,
+    apples: 20, gapples: 0,
     totalPop: 0, idleCitizens: 0, popMax: 10,
     farmRate: 1.4, woodRate: 0.5, mineRate: 0.25, oreRate: 0, skinRate: 0, metalRate: 0.5, leatherRate: 0.5,
     starving: false,
@@ -40,6 +40,9 @@ function startUp()
     let timer = setInterval(checkUpgrade, 100);
     let timer2 = setInterval(resourceGet, 1000); 
     document.getElementById('logHide').style.display = 'none';
+    if (gS.b17 == true) {
+        document.getElementById('milled').removeAttribute('disabled');
+    }
     importData(); sect1(); 
     butDisable(); allChecks(); goldCheck(); masCheck(); constCheck(); 
 }
@@ -50,9 +53,12 @@ function resourceGet()
 
     if(gS.woodCount < gS.woodCapAm) {
         gS.woodCount += gS.woodRate * gS.woodCutters;
+        if(gS.b13 == true && randoNum <= 2 && gS.woodCount < gS.woodCapAm && gS.woodCutters >= 1) {
+            gS.herbCount += Math.floor(1 + (gS.woodRatio / 3));
+        }
     }
 
-    if(gS.foodCount < gS.foodCapAm) {
+    if(gS.foodCount < gS.foodCapAm || gS.foodRatio < 0) {
         gS.foodCount += (gS.farmRate * gS.farmers) - gS.totalPop;
         if(gS.b12 == true && randoNum <= 2 && gS.foodCount < gS.foodCapAm && gS.farmers >= 1) {
             gS.skinCount += Math.floor(1 + (gS.foodRatio / 3));
@@ -61,10 +67,14 @@ function resourceGet()
 
     if(gS.stoneCount < gS.stoneCapAm) {
         gS.stoneCount += gS.mineRate * gS.miners;
+        if(gS.b14 == true && randoNum <= 2 && gS.stoneCount < gS.stoneCapAm && gS.miners >= 1) {
+            gS.oreCount += Math.floor(1 + (gS.stoneRatio / 3));
+        }
     }
 // tanners make 0.5 leather per worker.
-    if(gS.tanners >= 1) {
+    if(gS.tanners >= 1 && gS.skinCount >= gS.leatherRate * gS.tanners) {
         gS.leatherCount += gS.leatherRate * gS.tanners;
+        gS.skinCount -= gS.leatherRate * gS.tanners;
     }
 
 //block for starving
@@ -77,6 +87,7 @@ if (gS.foodCount >= 1) {
 }
 allChecks(); saveGame();
 //block for dying population. note the hunger variable ensures 2-3 seconds have passed first.
+
 if(gS.starving == false) {
     hunger = 0;
     return;
@@ -243,6 +254,48 @@ function checkUpgrade()
         document.getElementById('butt11').disabled = true;
     }
 
+    if(gS.leatherCount >= 50) {
+        document.getElementById('butt12').removeAttribute('disabled'); }
+    else if(gS.leatherCount < 50) {
+        document.getElementById('butt12').disabled = true;
+    }
+
+    if(gS.herbCount >= 50) {
+        document.getElementById('butt13').removeAttribute('disabled'); }
+    else if(gS.herbCount < 50) {
+        document.getElementById('butt13').disabled = true;
+    }
+
+    if(gS.oreCount >= 50) {
+        document.getElementById('butt14').removeAttribute('disabled'); }
+    else if(gS.oreCount < 50) {
+        document.getElementById('butt14').disabled = true;
+    }
+
+    if(gS.woodCount >= 1000 && gS.foodCount >= 1000 && gS.stoneCount >= 1000) {
+        document.getElementById('butt15').removeAttribute('disabled'); }
+    else if(gS.woodCount < 1000 || gS.foodCount < 1000 || gS.stoneCount < 1000) {
+        document.getElementById('butt15').disabled = true;
+    }
+
+    if(gS.woodCount >= 1000 && gS.stoneCount >= 1000) {
+        document.getElementById('butt16').removeAttribute('disabled'); }
+    else if(gS.woodCount < 1000 || gS.stoneCount < 1000) {
+        document.getElementById('butt16').disabled = true;
+    }
+
+    if(gS.woodCount >= 1000 && gS.gapples >= 5) {
+        document.getElementById('butt17').removeAttribute('disabled'); }
+    else if(gS.woodCount < 500 || gS.gapples >= 5) {
+        document.getElementById('butt17').disabled = true;
+    }
+
+    if(gS.apples >= 50 && gS.leatherCount >= 100 && gS.metalCount >= 50) {
+        document.getElementById('butt18').removeAttribute('disabled'); }
+    else if(gS.apples < 50 || gS.leatherCount < 100 || gS.metalCount < 50) {
+        document.getElementById('butt18').disabled = true;
+    }
+
 
     
     //strg caps.
@@ -276,14 +329,14 @@ function storgClear()
 {
    if (confirm("Are you sure you want to delete all data?")) {
         localStorage.clear();
-        gS.woodCount = 0;
-        gS.foodCount = 0;
-        gS.stoneCount = 0;
+        gS.woodCount = 1000;
+        gS.foodCount = 1000;
+        gS.stoneCount = 1000;
         gS.metalCount = 0;
-        gS.leatherCount = 0;
-        gS.oreCount = 0;
-        gS.skinCount = 0;
-        gS.herbCount = 0;
+        gS.leatherCount = 100;
+        gS.oreCount = 100;
+        gS.skinCount = 100;
+        gS.herbCount = 100;
         gS.b4 = false;
         gS.b5 = false;
         gS.b6 = false;
@@ -301,19 +354,19 @@ function storgClear()
         gS.b18 = false;
         gS.b19 = false;
         gS.b20 = false;
-        gS.wProduce = 1;
-        gS.fProduce = 1;
-        gS.sProduce = 1;
+        gS.wProduce = 100;
+        gS.fProduce = 100;
+        gS.sProduce = 100;
         gS.woodCutters = 0;
         gS.farmers = 0;
         gS.miners = 0;
         gS.blacksmiths = 0;
         gS.tanners = 0;
-        gS.woodCapAm = 200;
-        gS.foodCapAm = 200;
-        gS.stoneCapAm = 200;
-        gS.apples = 0;
-        gS.gapples = 0;
+        gS.woodCapAm = 1000;
+        gS.foodCapAm = 1000;
+        gS.stoneCapAm = 1000;
+        gS.apples = 25;
+        gS.gapples = 25;
         gS.totalPop = 0;
         gS.idleCitizens = 0; 
         gS.popMax = 10;
@@ -342,10 +395,10 @@ function storgClear()
 
 function appCheck()
 {
-    if (Math.ceil(Math.random() * 10) == 1) {
+    if (Math.ceil(Math.random() * 100) >= 1) {
         gS.apples += 1; document.getElementById('appletxt').innerHTML = gS.apples; }
 
-      if (Math.ceil(Math.random() * 100) == 1 && gS.b9 == true) {
+      if (Math.ceil(Math.random() * 1000) >= 9 && gS.b9 == true) {
         gS.gapples += 1; document.getElementById('gappletxt').innerHTML = gS.gapples; }
 }
 
@@ -409,10 +462,10 @@ function allChecks()
     document.getElementById('update2').innerHTML = gS.foodCapAm;
     document.getElementById('update3').innerHTML = gS.stoneCapAm;
     document.getElementById('update4').innerHTML = personCost;
-    document.getElementById('skins').innerHTML = gS.skinCount;
-    document.getElementById('ore').innerHTML = gS.oreCount;
-    document.getElementById('herbs').innerHTML = gS.herbCount;
-    document.getElementById('leather').innerHTML = gS.leatherCount;
+    document.getElementById('skins').innerHTML = gS.skinCount.toFixed(0);
+    document.getElementById('ore').innerHTML = gS.oreCount.toFixed(0);
+    document.getElementById('herbs').innerHTML = gS.herbCount.toFixed(0);
+    document.getElementById('leather').innerHTML = gS.leatherCount.toFixed(0);
     document.getElementById('people').innerHTML = gS.totalPop;
     document.getElementById('popMax').innerHTML = gS.popMax;
     document.getElementById('tentNum').innerHTML = gS.tents;
@@ -531,21 +584,21 @@ function sicklesUp()
 function skinGet()
 {
     gS.b12 = true;
-    gS.skinCount -= 20; 
+    gS.skinCount -= 50; 
     allChecks(); saveGame(); butDisable();
 }
 
 function herbGet()
 {
     gS.b13 = true;
-    gS.herbCount -= 20;
+    gS.herbCount -= 50;
     allChecks(); saveGame(); butDisable();
 }
 
 function oreGet()
 {
     gS.b14 = true;
-    gS.oreCount -= 20;
+    gS.oreCount -= 50;
     allChecks(); saveGame(); butDisable();
 }
 
@@ -553,6 +606,7 @@ function DomesticUp()
 {
     gS.b15 = true;
     gS.farmRate += 0.8;
+    gS.woodCount -= 1000; gS.foodCount -= 1000; gS.stoneCount -= 1000;
     allChecks(); saveGame(); butDisable();
 }
 
@@ -560,12 +614,15 @@ function granUp()
 {
     gS.b16 = true;
     gS.barnStrg *= 2;
+    gS.woodCount -= 1000; gS.stoneCount -= 1000;
     allChecks(); saveGame(); butDisable();
 }
 
 function millsOn()
 {
     gS.b17 = true;
+    gS.gapples -= 5; gS.woodCount -= 1000; 
+    document.getElementById('milled').removeAttribute('disabled');
     allChecks(); saveGame(); butDisable();
 }
 
@@ -1030,7 +1087,7 @@ function mansion1k()
 function barnGet()
 {
     if(gS.woodCount >= (100 * userNum)) {
-        gS.barns += userNum; gS.foodCapAm += (userNum * 100) * 2;
+        gS.barns += userNum; gS.foodCapAm += (userNum * gS.barnStrg);
         gS.woodCount -= userNum * 100;
         landAdd(); allChecks(); }
 }
