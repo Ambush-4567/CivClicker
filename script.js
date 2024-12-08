@@ -1,11 +1,11 @@
 let gS = {
-    woodCount: 1000, foodCount: 1000, stoneCount: 1000, metalCount: 0, leatherCount: 100, oreCount: 100, skinCount: 100, herbCount: 100,
+    woodCount: 0, foodCount: 0, stoneCount: 0, metalCount: 0, leatherCount: 0, oreCount: 0, skinCount: 0, herbCount: 0,
     b4: false, b5: false, b6: false, b7: false, b8: false, b9: false, b10: false, b11: false, b12: false, b13: false,
     b14: false, b15: false, b16: false, b17: false, b18: false, b19: false, b20: false,
-    wProduce: 100, fProduce: 100, sProduce: 100,
+    wProduce: 1, fProduce: 1, sProduce: 1,
     woodCutters: 0, farmers: 0, miners: 0, blacksmiths: 0, tanners: 0,
-    woodCapAm: 1000, foodCapAm: 1000, stoneCapAm: 1000,
-    apples: 20, gapples: 0,
+    woodCapAm: 200, foodCapAm: 200, stoneCapAm: 200,
+    apples: 0, gapples: 0,
     totalPop: 0, idleCitizens: 0, popMax: 10,
     farmRate: 1.4, woodRate: 0.5, mineRate: 0.25, oreRate: 0, skinRate: 0, metalRate: 0.5, leatherRate: 0.5,
     starving: false,
@@ -329,14 +329,14 @@ function storgClear()
 {
    if (confirm("Are you sure you want to delete all data?")) {
         localStorage.clear();
-        gS.woodCount = 1000;
-        gS.foodCount = 1000;
-        gS.stoneCount = 1000;
+        gS.woodCount = 0;
+        gS.foodCount = 0;
+        gS.stoneCount = 0;
         gS.metalCount = 0;
-        gS.leatherCount = 100;
-        gS.oreCount = 100;
-        gS.skinCount = 100;
-        gS.herbCount = 100;
+        gS.leatherCount = 0;
+        gS.oreCount = 0;
+        gS.skinCount = 0;
+        gS.herbCount = 0;
         gS.b4 = false;
         gS.b5 = false;
         gS.b6 = false;
@@ -354,19 +354,19 @@ function storgClear()
         gS.b18 = false;
         gS.b19 = false;
         gS.b20 = false;
-        gS.wProduce = 100;
-        gS.fProduce = 100;
-        gS.sProduce = 100;
+        gS.wProduce = 1;
+        gS.fProduce = 1;
+        gS.sProduce = 1;
         gS.woodCutters = 0;
         gS.farmers = 0;
         gS.miners = 0;
         gS.blacksmiths = 0;
         gS.tanners = 0;
-        gS.woodCapAm = 1000;
-        gS.foodCapAm = 1000;
-        gS.stoneCapAm = 1000;
-        gS.apples = 25;
-        gS.gapples = 25;
+        gS.woodCapAm = 200;
+        gS.foodCapAm = 200;
+        gS.stoneCapAm = 200;
+        gS.apples = 0;
+        gS.gapples = 0;
         gS.totalPop = 0;
         gS.idleCitizens = 0; 
         gS.popMax = 10;
